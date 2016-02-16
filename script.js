@@ -29,9 +29,7 @@ var student_array = [
  *
  * @return undefined
  */
-var add_student = function(){
 
-};
 /**
  * clearAddStudentForm - clears out the form values based on inputIds variable
  */
