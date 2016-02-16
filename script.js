@@ -5,7 +5,12 @@
  * student_array - global array to hold student objects
  * @type {Array}
  */
-
+var student_array = [
+    {studentName: "Daniel Craig", studentCourse: "Math", studentGrade: 80},
+    {studentName: "Pierce Brosnan ", studentCourse: "Science", studentGrade: 85},
+    {studentName: "Sean Connery", studentCourse: "Math", studentGrade: 90},
+    {studentName: "Timothy Dalton", studentCourse: "Sciene", studentGrade: 70},
+];
 /**
  * inputIds - id's of the elements that are used to add students
  * @type {string[]}
