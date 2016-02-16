@@ -5,7 +5,7 @@
  * student_array - global array to hold student objects
  * @type {Array}
  */
-
+var student_aray=[];
 /**
  * inputIds - id's of the elements that are used to add students
  * @type {string[]}
@@ -24,7 +24,9 @@
  *
  * @return undefined
  */
+var add_student = function(){
 
+};
 /**
  * clearAddStudentForm - clears out the form values based on inputIds variable
  */
