@@ -6,10 +6,10 @@
  * @type {Array}
  */
 var student_array = [
-    {studentName: "Daniel Craig", studentCourse: "Math", studentGrade: 80},
-    {studentName: "Pierce Brosnan ", studentCourse: "Science", studentGrade: 85},
-    {studentName: "Sean Connery", studentCourse: "Math", studentGrade: 90},
-    {studentName: "Timothy Dalton", studentCourse: "Sciene", studentGrade: 70},
+    {studentName: "Daniel Craig", course: "Math", studentGrade: 80},
+    {studentName: "Pierce Brosnan ", course: "Science", studentGrade: 85},
+    {studentName: "Sean Connery", course: "Math", studentGrade: 90},
+    {studentName: "Timothy Dalton", course: "Sciene", studentGrade: 70},
 ];
 /**
  * inputIds - id's of the elements that are used to add students
@@ -19,7 +19,12 @@ var student_array = [
 /**
  * addClicked - Event Handler when user clicks the add button
  */
-
+$(document).ready(function(){
+    $("button").click(function () {
+        console.log("add button clicked");
+        addStudent();
+    });
+});
 /**
  * cancelClicked - Event Handler when user clicks the cancel button, should clear out student form
  */
@@ -29,11 +34,28 @@ var student_array = [
  *
  * @return undefined
  */
+function addStudent() {
+    student_object = {};
+    var nameAdded = $("input[name=studentName]").val();
+    var courseAdded = $("input[name=course]").val();
+    var gradeAdded = $("input[name=studentGrade]").val();
+    //var buttonDelete = $("button").addClass("btn btn-danger").text("delete");
+    if (nameAdded != null && courseAdded != null && gradeAdded != null) {
+        student_object.studentName = nameAdded;
+        student_object.course = courseAdded;
+        student_object.studentGrade = gradeAdded;
+       // student_object.delete = buttonDelete;
+        student_array.push(student_object);
+        console.log(student_object);
+    }
+}
 
 /**
  * clearAddStudentForm - clears out the form values based on inputIds variable
  */
+function clearAddStudentForm(){
 
+}
 /**
  * calculateAverage - loop through the global student array and calculate average grade and return that value
  * @returns {number}
