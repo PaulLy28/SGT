@@ -193,3 +193,22 @@ function reset(){
 $(document).ready(function(){
     reset();
 });
+
+//highlight function will highlight highest and lowest grades
+
+function highlighter(){
+    var lowest = 100;
+    var highest = 0;
+    var temp;
+    for (var i = 0; i< student_array.length; i++) {
+        temp = student_array[i].studentGrade;
+        if (temp < lowest) {
+            lowest = temp;
+        }
+        if (temp > highest) {
+            highest = temp;
+        }
+    }
+    console.log('highest is', highest);
+    console.log('lowest is', lowest);
+}
