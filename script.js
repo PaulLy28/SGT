@@ -185,7 +185,7 @@ function reset(){
 /**
  * Listen for the document to load and reset the data to the initial state
  */
-//onload even thtat will call the reset function
+//onload event that will call the reset function
 $(document).ready(function(){
     reset();
 });
