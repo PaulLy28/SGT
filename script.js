@@ -60,6 +60,7 @@ function addStudent() {
         student_object.course = courseAdded;
         student_object.studentGrade = gradeAdded;
         student_array.push(student_object);
+        $('.noData').remove();
         console.log(student_object);
         updateStudentList();
     }
@@ -181,6 +182,8 @@ function addStudentToDom(studentObj, index){
 function reset(){
     student_array=[];
     updateStudentList();
+    var unavailable = $('<td>').addClass('noData').attr('colSpan','4').html('<h4>User Info Unavailable</h4>');
+    $('.student-list > tbody').append(unavailable);
 }
 
 /**
