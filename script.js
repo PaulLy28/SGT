@@ -77,9 +77,10 @@ function calculateAverage() {
 
 /**
  * updateStudentList - loops through global student array and appends each objects data into the student-list-container > list-body
- */function updateStudentList(){
+ */
+function updateStudentList(){
     for(var i= 0; i < student_array.length; ++i)
-    addStudentToDom(student_array + [i]);
+        addStudentToDom(student_array[i]);
     }
 //loop through student array
 //  call addStudentToDom for each student in the array
