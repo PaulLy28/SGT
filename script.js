@@ -91,10 +91,10 @@ function clearAddStudentForm() {
 function calculateAverage() {
     var totalGrades = 0;
     for (var i = 0; i < student_array.length; i++) {
-        totalGrades += student_array[i].studentGrade;
+        totalGrades += parseInt(student_array[i].studentGrade);
         console.log("totalGrades", totalGrades);
     }
-    var totalAvg = totalGrades / student_array.length;
+    var totalAvg = Math.round(totalGrades / student_array.length);
     //console.log("total avg", totalAvg);
     return totalAvg;
 }
