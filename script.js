@@ -9,7 +9,7 @@ var student_array = [
     {studentName: "Daniel Craig", course: "Math", studentGrade: 80},
     {studentName: "Pierce Brosnan ", course: "Science", studentGrade: 85},
     {studentName: "Sean Connery", course: "Math", studentGrade: 90},
-    {studentName: "Timothy Dalton", course: "Sciene", studentGrade: 70}
+    {studentName: "Timothy Dalton", course: "Sciene", studentGrade: 70},
 ];
 /**
  * inputIds - id's of the elements that are used to add students
@@ -19,12 +19,7 @@ var student_array = [
 /**
  * addClicked - Event Handler when user clicks the add button
  */
-$(document).ready(function(){
-    $("#add").click(function () {
-        console.log("add button clicked");
-        addStudent();
-    });
-});
+
 /**
  * cancelClicked - Event Handler when user clicks the cancel button, should clear out student form
  */
@@ -57,9 +52,7 @@ function addStudent() {
 /**
  * clearAddStudentForm - clears out the form values based on inputIds variable
  */
-function clearAddStudentForm(){
 
-}
 /**
  * calculateAverage - loop through the global student array and calculate average grade and return that value
  * @returns {number}
@@ -88,7 +81,46 @@ function calculateAverage() {
  * into the .student_list tbody
  * @param studentObj
  */
-
+//get a student from parameter
+//create the tr for the student
+//create the name td
+//fill it with the student's name
+//create the course td
+//fill it with the student's course
+//create the grade td
+//fill it with the student's grade
+//create the button td
+//create the button
+//fill the button with text
+//fill the button with classes
+//add the click handler onto the button
+//add the button into the button td
+//add the name td, course td, grade td, and button td into the student-list tbody
+//drink beer
+function addStudentToDom(){
+    var trNew = $("<tr>");
+        var tdStudent = $("<td>",{
+            text: studentName
+        });
+        var tdCourse = $("<td>",{
+            text: course
+        });
+        var tdGrade = $("<td>",{
+            text: studentGrade
+        });
+        var tdDelete = $("<td>",{
+            class: deleteButton
+        });
+            var deleteButtonNew = $("<button>",{
+                text: Delete,
+                class: "btn btn-danger",
+                click: function(){
+                    $(this).remove();
+                }
+            });
+            $(".deleteButton").append(deleteButtonNew);
+            $(".student-list > tbody").append(tdStudent, tdCourse, tdGrade, tdDelete);
+        }
 /**
  * reset - resets the application to initial state. Global variables reset, DOM get reset to initial load state
  */
