@@ -9,7 +9,7 @@ var student_array = [
     {studentName: "Daniel Craig", course: "Math", studentGrade: 80},
     {studentName: "Pierce Brosnan ", course: "Science", studentGrade: 85},
     {studentName: "Sean Connery", course: "Math", studentGrade: 90},
-    {studentName: "Timothy Dalton", course: "Sciene", studentGrade: 70}
+    {studentName: "Timothy Dalton", course: "Sciene", studentGrade: 70},
 ];
 /**
  * inputIds - id's of the elements that are used to add students
@@ -19,8 +19,7 @@ var inputIds = ['studentName', 'course', 'studentGrade'];
 /**
  * addClicked - Event Handler when user clicks the add button
  */
-
- function addStudentClicked(){
+function addStudentClicked(){
         addStudent();
     }
 /**
@@ -40,7 +39,8 @@ function addStudent() {
     var courseAdded = $("input[name=course]").val();
     var gradeAdded = $("input[name=studentGrade]").val();
     //var buttonDelete = $("button").addClass("btn btn-danger").text("delete");
-    if (nameAdded != null && courseAdded != null && gradeAdded != null) {
+    //if (nameAdded != null && courseAdded != null && gradeAdded != null) {
+    if ($("input") != null) {
         student_object.studentName = nameAdded;
         student_object.course = courseAdded;
         student_object.studentGrade = gradeAdded;
@@ -48,14 +48,18 @@ function addStudent() {
         student_array.push(student_object);
         console.log(student_object);
     }
+    else {
+        console.log("error");
+        return undefined;
+    }
 }
 /**
  * clearAddStudentForm - clears out the form values based on inputIds variable
  */
 function clearAddStudentForm() {
-
     $('input').val('');
 }
+
 /**
  * calculateAverage - loop through the global student array and calculate average grade and return that value
  * @returns {number}
@@ -77,10 +81,13 @@ function calculateAverage() {
 
 /**
  * updateStudentList - loops through global student array and appends each objects data into the student-list-container > list-body
- */function updateStudentList(){
-    for(var i= 0; i < student_array.length; ++i)
-    addStudentToDom(student_array + [i]);
+ */
+function updateStudentList(){
+    for(var i= 0; i < student_array.length; ++i) {
+        addStudentToDom(student_array + [i]);
     }
+}
+
 //loop through student array
 //  call addStudentToDom for each student in the array
 
@@ -101,10 +108,36 @@ function calculateAverage() {
     //create the button
         //fill the button with text
         //fill the button with classes
-        //add the click handler onto the button
+//add the click handler onto the button
 //add the button into the button td
 //add the name td, course td, grade td, and button td into the student-list tbody
 //drink beer
+
+function addStudentToDom(){
+    var trNew = $("<tr>");
+        var tdStudent = $("<td>",{
+            text: studentName
+        });
+        var tdCourse = $("<td>",{
+            text: course
+        });
+        var tdGrade = $("<td>",{
+            text: studentGrade
+        });
+        var tdDelete = $("<td>",{
+            class: deleteButton
+        });
+            var deleteButtonNew = $("<button>",{
+                text: Delete,
+                class: "btn btn-danger",
+                click: function(){
+                    $(this).remove();
+                }
+            });
+            $(".deleteButton").append(deleteButtonNew);
+            $(".student-list > tbody").append(tdStudent, tdCourse, tdGrade, tdDelete);
+        }
+
 /**
  * reset - resets the application to initial state. Global variables reset, DOM get reset to initial load state
  */
