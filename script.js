@@ -40,13 +40,18 @@ function addStudent() {
     var courseAdded = $("input[name=course]").val();
     var gradeAdded = $("input[name=studentGrade]").val();
     //var buttonDelete = $("button").addClass("btn btn-danger").text("delete");
-    if (nameAdded != null && courseAdded != null && gradeAdded != null) {
+    //if (nameAdded != null && courseAdded != null && gradeAdded != null) {
+    if ($("input") != null) {
         student_object.studentName = nameAdded;
         student_object.course = courseAdded;
         student_object.studentGrade = gradeAdded;
        // student_object.delete = buttonDelete;
         student_array.push(student_object);
         console.log(student_object);
+    }
+    else {
+        console.log("error");
+        return undefined;
     }
 }
 /**
