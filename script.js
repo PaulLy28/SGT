@@ -68,6 +68,8 @@ function addStudent() {
         return undefined;
     }
 }
+
+
 /**
  * clearAddStudentForm - clears out the form values based on inputIds variable
  */
@@ -119,8 +121,6 @@ function updateStudentList(){
         addStudentToDom(student_array[i],i);
 }
 
-
-
 /**
  * addStudentToDom - take in a student object, create html elements from the values and then append the elements
  * into the .student_list tbody
@@ -171,7 +171,24 @@ function addStudentToDom(studentObj, index){
         trNew.append(tdName, tdCourse, tdGrade, tdDelete);
     $(".student-list > tbody").append(trNew);
 }
+//code below is for the autocomplete.
+var courseList ={};
+function autoComplete(input){
+    for(var i=0; i < student_array.length; i++)
+    var course =student_array[i].course
+    courseList[course]=1;
+}
 
+//timer for the autocomplete. Not required but nice feature
+var timer= null;
+$('body').on('keyup', 'input', function (event) {
+    console.log('keyup: ', event);
+    if(timer!=null){
+        clearTimeout(timer)
+    }
+    timer= setTimeout(autoComplete,500)
+});
+//end of timer
 /**
  * reset - resets the application to initial state. Global variables reset, DOM get reset to initial load state
  */
@@ -189,4 +206,14 @@ function reset(){
 //onload event that will call the reset function
 $(document).ready(function(){
     reset();
+    //moved keyup code here to test. keyup works here
+    var timer= null;
+    $('body').on('keyup', 'input', function (event) {
+        console.log('keyup: ', event);
+        if(timer!=null){
+            clearTimeout(timer)
+        }
+        timer= setTimeout(autoComplete,500)
+    });
+    //end keyup
 });
