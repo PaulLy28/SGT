@@ -94,7 +94,7 @@ function calculateAverage() {
         totalGrades += parseInt(student_array[i].studentGrade);
         console.log("totalGrades", totalGrades);
     }
-    var totalAvg = parseInt(totalGrades) / student_array.length;
+    var totalAvg = Math.round(totalGrades / student_array.length);
     //console.log("total avg", totalAvg);
     return totalAvg;
 }
