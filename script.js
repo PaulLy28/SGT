@@ -114,6 +114,7 @@ function updateData(){
 //loop through student array
     //call addStudentToDom for each student in the array
 function updateStudentList(){
+    $('tbody > tr').remove();
     for(var i= 0; i < student_array.length; ++i)
         addStudentToDom(student_array[i],i);
 }
