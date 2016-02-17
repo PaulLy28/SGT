@@ -9,7 +9,7 @@ var student_array = [
     {studentName: "Daniel Craig", course: "Math", studentGrade: 80},
     {studentName: "Pierce Brosnan ", course: "Science", studentGrade: 85},
     {studentName: "Sean Connery", course: "Math", studentGrade: 90},
-    {studentName: "Timothy Dalton", course: "Sciene", studentGrade: 70},
+    {studentName: "Timothy Dalton", course: "Sciene", studentGrade: 70}
 ];
 /**
  * inputIds - id's of the elements that are used to add students
@@ -20,7 +20,7 @@ var student_array = [
  * addClicked - Event Handler when user clicks the add button
  */
 $(document).ready(function(){
-    $("button").click(function () {
+    $("#add").click(function () {
         console.log("add button clicked");
         addStudent();
     });
@@ -49,7 +49,6 @@ function addStudent() {
         console.log(student_object);
     }
 }
-
 /**
  * clearAddStudentForm - clears out the form values based on inputIds variable
  */
@@ -60,7 +59,17 @@ function clearAddStudentForm(){
  * calculateAverage - loop through the global student array and calculate average grade and return that value
  * @returns {number}
  */
-
+function calculateAverage() {
+    var totalGrades = 0;
+    for (var i = 0; i < student_array.length; i++) {
+        var myIndex = i;
+        totalGrades += student_array[myIndex].studentGrade;
+        console.log("totalGrades", totalGrades);
+    }
+    var totalAvg = totalGrades / student_array.length;
+    //console.log("total avg", totalAvg);
+    return totalAvg;
+}
 /**
  * updateData - centralized function to update the average and call student list update
  */
