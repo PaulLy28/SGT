@@ -113,30 +113,30 @@ function updateStudentList(){
 //add the name td, course td, grade td, and button td into the student-list tbody
 //drink beer
 
-function addStudentToDom(){
+function addStudentToDom(studentObj){
     var trNew = $("<tr>");
-        var tdStudent = $("<td>",{
-            text: studentName
-        });
-        var tdCourse = $("<td>",{
-            text: course
-        });
-        var tdGrade = $("<td>",{
-            text: studentGrade
-        });
-        var tdDelete = $("<td>",{
-            class: deleteButton
-        });
-            var deleteButtonNew = $("<button>",{
-                text: Delete,
-                class: "btn btn-danger",
-                click: function(){
-                    $(this).remove();
-                }
-            });
-            $(".deleteButton").append(deleteButtonNew);
-            $(".student-list > tbody").append(tdStudent, tdCourse, tdGrade, tdDelete);
+    var tdName = $("<td>",{
+        text: studentObj.studentName
+    });
+    var tdCourse = $("<td>",{
+        text: studentObj.course
+    });
+    var tdGrade = $("<td>",{
+        text: studentObj.studentGrade
+    });
+    var tdDelete = $("<td>",{
+    });
+    var deleteButtonNew = $("<button>",{
+        text: Delete,
+        class: "btn btn-danger",
+        click: function(){
+            $(this).remove();
         }
+    });
+    $(".deleteButton").append(deleteButtonNew);
+    trNew.append(tdName, tdCourse, tdGrade, tdDelete);
+    $(".student-list > tbody").append(trNew);
+}
 
 /**
  * reset - resets the application to initial state. Global variables reset, DOM get reset to initial load state
