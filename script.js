@@ -152,6 +152,6 @@ function reset(){
 /**
  * Listen for the document to load and reset the data to the initial state
  */
-$(document).ready(function{
+$(document).ready(function(){
     reset();
 });
