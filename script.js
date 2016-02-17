@@ -5,12 +5,7 @@
  * student_array - global array to hold student objects
  * @type {Array}
  */
-var student_array = [
-    {studentName: "Daniel Craig", course: "Math", studentGrade: 80},
-    {studentName: "Pierce Brosnan ", course: "Science", studentGrade: 85},
-    {studentName: "Sean Connery", course: "Math", studentGrade: 90},
-    {studentName: "Timothy Dalton", course: "Sciene", studentGrade: 70},
-];
+var student_array = [];
 /**
  * inputIds - id's of the elements that are used to add students
  * @type {string[]}
@@ -21,6 +16,8 @@ var inputIds = ['studentName', 'course', 'studentGrade'];
  */
 function addStudentClicked(){
         addStudent();
+        updateData();
+        clearAddStudentForm();
     }
 /**
  * cancelClicked - Event Handler when user clicks the cancel button, should clear out student form
@@ -78,7 +75,10 @@ function calculateAverage() {
 /**
  * updateData - centralized function to update the average and call student list update
  */
-
+function updateData(){
+    $('.avgGrade').text(calculateAverage());
+    updateStudentList();
+}
 /**
  * updateStudentList - loops through global student array and appends each objects data into the student-list-container > list-body
  */
@@ -144,8 +144,14 @@ function addStudentToDom(studentObj, index){
 /**
  * reset - resets the application to initial state. Global variables reset, DOM get reset to initial load state
  */
-
+function reset(){
+    student_array=[];
+    updateStudentList();
+}
 
 /**
  * Listen for the document to load and reset the data to the initial state
  */
+$(document).ready(function{
+    reset();
+});
