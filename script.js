@@ -63,6 +63,7 @@ function addStudent() {
         $('.noData').remove();
         console.log(student_object);
         updateStudentList();
+        highlighter();
     }
     else {
         console.log("error");
