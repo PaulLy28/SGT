@@ -82,16 +82,16 @@ function clearAddStudentForm() {
  * @returns {number}
  */
 //a function to calculate the average grade and display the average
-    //local varialbe of the totalGrades equal to zero
+    //local variable of the totalGrades equal to zero
     //for loop going through the student array length
-    //conccat the totalGrades added to the student array at index position with object key of studentGrade
+    //concat the totalGrades added to the student array at index position with object key of studentGrade
     //end the for loop
     //a variable of the totalAvg is equal to the totalGrades divided by the student array length
     //return the totalAvg
 function calculateAverage() {
     var totalGrades = 0;
     for (var i = 0; i < student_array.length; i++) {
-        totalGrades += student_array[i].studentGrade;
+        totalGrades += parseInt(student_array[i].studentGrade);
         console.log("totalGrades", totalGrades);
     }
     var totalAvg = totalGrades / student_array.length;
@@ -114,6 +114,7 @@ function updateData(){
 //loop through student array
     //call addStudentToDom for each student in the array
 function updateStudentList(){
+    $("tbody").empty();
     for(var i= 0; i < student_array.length; ++i)
         addStudentToDom(student_array[i],i);
 }
@@ -160,9 +161,10 @@ function addStudentToDom(studentObj, index){
             class: "btn btn-danger",
             'data-index': index,
             click: function(){
-                console.log('element is ',trNew,studentObj);
+                var newIndex = student_array.indexOf(studentObj);
+                console.log('element is ',trNew,studentObj,newIndex);
                 console.log('this object is in element # '+index);
-                student_array.splice(trNew, 1);
+                student_array.splice(newIndex, 1);
                 $(this).parents('tr').remove();
             }
         });
@@ -185,7 +187,7 @@ function reset(){
 /**
  * Listen for the document to load and reset the data to the initial state
  */
-//onload even thtat will call the reset function
+//onload even that will call the reset function
 $(document).ready(function(){
     reset();
 });
