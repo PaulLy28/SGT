@@ -58,16 +58,22 @@ function addStudent() {
     if ($("input") != null) {
         student_object.studentName = nameAdded;
         student_object.course = courseAdded;
-        student_object.studentGrade = gradeAdded;
+        student_object.studentGrade = parseInt(gradeAdded);
         student_array.push(student_object);
+        $('.noData').remove();
         console.log(student_object);
+        high_and_low_grade(student_object.studentGrade);
         updateStudentList();
+
     }
     else {
         console.log("error");
         return undefined;
     }
+
 }
+
+
 /**
  * clearAddStudentForm - clears out the form values based on inputIds variable
  */
@@ -94,7 +100,7 @@ function calculateAverage() {
         totalGrades += parseInt(student_array[i].studentGrade);
         console.log("totalGrades", totalGrades);
     }
-    var totalAvg = totalGrades / student_array.length;
+    var totalAvg = Math.round(totalGrades / student_array.length);
     //console.log("total avg", totalAvg);
     return totalAvg;
 }
@@ -114,12 +120,18 @@ function updateData(){
 //loop through student array
     //call addStudentToDom for each student in the array
 function updateStudentList(){
+
     $("tbody").empty();
     for(var i= 0; i < student_array.length; ++i)
         addStudentToDom(student_array[i],i);
+
+    $('tbody > tr').remove();
+    for(var i= 0; i < student_array.length; i++) {
+        console.log(student_array[i]);
+        addStudentToDom(student_array[i], i);
+    }
+
 }
-
-
 
 /**
  * addStudentToDom - take in a student object, create html elements from the values and then append the elements
@@ -164,8 +176,13 @@ function addStudentToDom(studentObj, index){
                 var newIndex = student_array.indexOf(studentObj);
                 console.log('element is ',trNew,studentObj,newIndex);
                 console.log('this object is in element # '+index);
+
                 student_array.splice(newIndex, 1);
                 $(this).parents('tr').remove();
+
+                student_array.splice(student_array.indexOf(studentObj), 1);
+                trNew.remove();
+
             }
         });
         tdDelete.append(deleteButtonNew);
@@ -173,6 +190,24 @@ function addStudentToDom(studentObj, index){
     $(".student-list > tbody").append(trNew);
 }
 
+//code below is for the autocomplete.
+var courseList ={};
+function autoComplete(input){
+    for(var i=0; i < student_array.length; i++)
+    var course =student_array[i].course
+    courseList[course]=1;
+}
+
+//timer for the autocomplete. Not required but nice feature
+var timer= null;
+$('body').on('keyup', 'input', function (event) {
+    console.log('keyup: ', event);
+    if(timer!=null){
+        clearTimeout(timer)
+    }
+    timer= setTimeout(autoComplete,500)
+});
+//end of timer
 /**
  * reset - resets the application to initial state. Global variables reset, DOM get reset to initial load state
  */
@@ -182,12 +217,74 @@ function addStudentToDom(studentObj, index){
 function reset(){
     student_array=[];
     updateStudentList();
+    var unavailable = $('<td>').addClass('noData').attr('colSpan','4').html('<h4>User Info Unavailable</h4>');
+    $('.student-list > tbody').append(unavailable);
 }
 
 /**
  * Listen for the document to load and reset the data to the initial state
  */
-//onload even that will call the reset function
+
+//onload event that will call the reset function
+
 $(document).ready(function(){
     reset();
 });
+
+
+//Function to check for the lowest and highest grades
+var highgrade = null;
+var lowgrade = null;
+function high_and_low_grade( studentGrade ) {
+    if( highgrade == null ) {
+        highgrade = studentGrade;
+        lowgrade = studentGrade;
+        console.log("High Grade: " + highgrade, "Low Grade: " + lowgrade);
+    }
+    else if( studentGrade > highgrade ) {
+        highgrade = studentGrade;
+        console.log("High Grade: " + highgrade, "Low Grade: " + lowgrade);
+    }
+    else if( studentGrade < lowgrade ) {
+        lowgrade = studentGrade;
+        console.log("High Grade: " + highgrade, "Low Grade: " + lowgrade);
+    }
+}
+
+
+
+
+//highlight function will highlight highest and lowest grades
+
+function highlighter(){
+    var lowest = 100;
+    var highest = 0;
+    var temp;
+    for (var i = student_array.length-1; i >= 0; i--) {
+        temp = student_array[i].studentGrade;
+        if (temp < lowest) {
+            lowest = temp;
+            $('.table.student-list > tbody > tr.table:nth-child(' + i + ') > td ').addClass('bg-danger');
+        }
+        if (temp > highest) {
+            highest = temp;
+            $('.table.table > tbody > tr.table:nth-child(' + i + ') > td ').addClass('bg-success');
+        }
+    }
+    console.log('highest is', highest);
+    console.log('lowest is', lowest);
+}
+
+    //
+    ////moved keyup code here to test. keyup works here
+    //var timer= null;
+    //$('body').on('keyup', 'input', function (event) {
+    //    console.log('keyup: ', event);
+    //    if(timer!=null){
+    //        clearTimeout(timer)
+    //    }
+    //    timer= setTimeout(autoComplete,500)
+    //});
+    ////end keyup
+
+
