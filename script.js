@@ -58,11 +58,11 @@ function addStudent() {
     if ($("input") != null) {
         student_object.studentName = nameAdded;
         student_object.course = courseAdded;
-        student_object.studentGrade = gradeAdded;
+        student_object.studentGrade = parseInt(gradeAdded);
         student_array.push(student_object);
         $('.noData').remove();
         console.log(student_object);
-        highlighter();
+        high_and_low_grade(student_object.studentGrade);
         updateStudentList();
 
     }
@@ -176,7 +176,6 @@ function addStudentToDom(studentObj, index){
         tdDelete.append(deleteButtonNew);
         trNew.append(tdName, tdCourse, tdGrade, tdDelete);
     $(".student-list > tbody").append(trNew);
-    //highlighter();
 }
 
 //code below is for the autocomplete.
@@ -217,6 +216,29 @@ function reset(){
 $(document).ready(function(){
     reset();
 });
+
+
+//Function to check for the lowest and highest grades
+var highgrade = null;
+var lowgrade = null;
+function high_and_low_grade( studentGrade ) {
+    if( highgrade == null ) {
+        highgrade = studentGrade;
+        lowgrade = studentGrade;
+        console.log("High Grade: " + highgrade, "Low Grade: " + lowgrade);
+    }
+    else if( studentGrade > highgrade ) {
+        highgrade = studentGrade;
+        console.log("High Grade: " + highgrade, "Low Grade: " + lowgrade);
+    }
+    else if( studentGrade < lowgrade ) {
+        lowgrade = studentGrade;
+        console.log("High Grade: " + highgrade, "Low Grade: " + lowgrade);
+    }
+}
+
+
+
 
 //highlight function will highlight highest and lowest grades
 
