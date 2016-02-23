@@ -55,16 +55,26 @@ function getDataClicked(){
         //after all key values for the new student has been stored to the student object push the data into the student_array variable
         //call function to update the student list
     //a conditional for when the input fields are not null to return undefined
-function addStudent() {
+function addStudent(student_data) {
     student_object = {};
-    var nameAdded = $("input[name=studentName]").val();
-    var courseAdded = $("input[name=course]").val();
-    var gradeAdded = $("input[name=studentGrade]").val();
+    if(student_data === undefined) {
+        var nameAdded = $("input[name=studentName]").val();
+        var courseAdded = $("input[name=course]").val();
+        var gradeAdded = $("input[name=studentGrade]").val();
+        var studentID='new_value';
+    }
+    else{
+        var nameAdded = student_data.name;
+        var courseAdded = student_data.course;
+        var gradeAdded = student_data.grade;
+        var studentID = student_data.id;
+    }
     //if (nameAdded != null && courseAdded != null && gradeAdded != null) {
     if ($("input") != null) {
         student_object.studentName = nameAdded;
         student_object.course = courseAdded;
         student_object.studentGrade = parseInt(gradeAdded);
+        student_object.id = studentID;
         student_array.push(student_object);
         $('.noData').remove();
         console.log(student_object);
@@ -194,7 +204,7 @@ function addStudentToDom(studentObj, index){
         tdDelete.append(deleteButtonNew);
         trNew.append(tdName, tdCourse, tdGrade, tdDelete);
         $(".student-list > tbody").append(trNew);
-        studentObj.element = studentRow;
+        studentObj.element = trNew;
 }
 
 //code below is for the autocomplete.
@@ -245,8 +255,10 @@ function getServerData() {
             serverData = response;
             console.log('this work');
             for(var i = 0; i < serverData.data.length; i++){
-                student_array.push(serverData.data[i]);
+                //student_array.push(serverData.data[i]);
+                addStudent(serverData.data[i]);
             }
+            updateStudentList();
         }
     })
 }
