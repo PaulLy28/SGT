@@ -1,41 +1,36 @@
-# Version 0.5
+# SGT - Student Grade Table
 
-## Description
-Version 0.5 starts where v.1 left off with adding in the delete functionality. When clicking on the delete button we need to add an event handler that will remove the current row
-from the DOM only after we have successfully removed the object from the array.
+## Version 0.1
+#### Description
+Version 0.1 is the starting point of the Student Grade Table Project. LearningFuze has provided a base structure that
+includes HTML structure that will need to be updated with boostrap classes. For this version we are looking to see that you
+understand how to style an application with bootstrap, take input values and apply them to objects, and update the DOM
+with a visual of those objects stored.
 
-## Getting Started
-> - Do you have the latest changes on your v0.1 branch?
-    - **No** - talk with an instructor
-    - **I don't know** - talk with an instructor
-    - **Yes** - Move on to Pull Latest Changes
-> - Are you on your v.1 branch?
-    - **Yes** - continue to "Pull Latest Changes"
-    - **I dont know** Run the command below
-        - `git branch` - this will highlight the branch you are currently on
-    - **No** - Make sure you `git add .` and `git commit` to your current branch before you switch to your v.1 branch
-> - Pull Latest Changes
-        - `git checkout v0.1`
-        - `git pull origin v0.1`
-> - Create a the feature branch
-    - `git checkout -b v0.5`
-> - Work on the scope defined <a href="https://github.com/Learning-Fuze/SGT/tree/v.5#scope">Below</a>
-> - Add files to git
-    - `git add .`
-> - Commit files (Group files together)
-    - `git commit -m "SGT v0.5 - Your Name"`
-    - **Replace "Your Name" with your first and last name**
-> - Send to gitHub (Push)
-    - `git push origin v0.5`
-> - Create pull request
-    - Pull request should be made from v0.5 to **your repository's/teams** master branch
+- <a href="https://github.com/Learning-Fuze/SGT/tree/v.1#getting-started">Getting Started</a>
+- <a href="https://github.com/Learning-Fuze/SGT/tree/v.1#scope">View Scope</a>
+- <a href="https://github.com/Learning-Fuze/SGT/tree/v.1#design">View Design</a>
+- <a href="https://github.com/Learning-Fuze/SGT/tree/v.1#assignments---aka-criteria-for-success-on-this-version-of-the-project">View Assignments</a>
 
+## Version 0.5
+#### Description
+Version 0.5 starts where v.1 left off with adding in the delete functionality. When clicking on the delete button we need
+to add an event handler that will remove the current row from the DOM only after we have successfully removed the object
+from the array.
 
-## Scope
-> - JS Functionality
-    - Add an anonymous function as the click handler to the dynamically created delete button for each student row - (Event Delegation)
-    - Delete button click handler function should have a call to removeStudent function that removes the object in the student_array
-        - Suggested method
-            - Using index of the row of the current button to remove from array
-            - Store the index when adding to the DOM into a data attribute
-    - Once the object has been removed from the array, remove the DOM element that is the parent of the delete button that was clicked.
+- <a href="https://github.com/Learning-Fuze/SGT/tree/v.5#getting-started">Getting Started</a>
+- <a href="https://github.com/Learning-Fuze/SGT/tree/v.5#scope">View Scope</a>
+
+## Version 1.0
+#### Description
+Version 1.0 picks up where 0.5 left off. You will now be populating records from a database via the LearningFuze SGT API. This version will only be pulling entries, you will not be adding anything to the database for this version. You should still be able to add entries locally as you did before.
+
+- <a href="https://github.com/Learning-Fuze/SGT/tree/v1.0#getting-started" target="_blank">Getting Started</a>
+- <a href="https://github.com/Learning-Fuze/SGT/tree/v1.0#scope" target="_blank">View Scope</a>
+
+## Version 2.0
+#### Description
+Version 2.0 adds more CRUD functionality.  Previously you added R (Read), and now you will be adding Create and Delete functionality. You will now be adding records to a database via the LearningFuze SGT API.
+
+- <a href="https://github.com/Learning-Fuze/SGT/tree/v2.0#getting-started" target="_blank">Getting Started</a>
+- <a href="https://github.com/Learning-Fuze/SGT/tree/v2.0#scope" target="_blank">View Scope</a>
