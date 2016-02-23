@@ -96,7 +96,7 @@ function calculateAverage() {
     var totalGrades = 0;
     for (var i = 0; i < student_array.length; i++) {
         totalGrades += parseInt(student_array[i].studentGrade);
-        console.log("totalGrades", totalGrades);
+        //console.log("totalGrades", totalGrades);
     }
     var totalAvg = Math.round(totalGrades / student_array.length);
     //console.log("total avg", totalAvg);
@@ -119,8 +119,10 @@ function updateData(){
     //call addStudentToDom for each student in the array
 function updateStudentList(){
     $('tbody > tr').remove();
-    for(var i= 0; i < student_array.length; ++i)
-        addStudentToDom(student_array[i],i);
+    for(var i= 0; i < student_array.length; i++) {
+        console.log(student_array[i]);
+        addStudentToDom(student_array[i], i);
+    }
 }
 
 /**
@@ -165,14 +167,19 @@ function addStudentToDom(studentObj, index){
             click: function(){
                 console.log('element is ',trNew,studentObj);
                 console.log('this object is in element # '+index);
-                student_array.splice(trNew, 1);
-                $(this).parents('tr').remove();
+                student_array.splice(student_array.indexOf(studentObj), 1);
+                trNew.remove();
             }
         });
         tdDelete.append(deleteButtonNew);
         trNew.append(tdName, tdCourse, tdGrade, tdDelete);
     $(".student-list > tbody").append(trNew);
 }
+
+
+
+
+
 //code below is for the autocomplete.
 var courseList ={};
 function autoComplete(input){
@@ -232,14 +239,14 @@ function highlighter(){
 }
 
     //moved keyup code here to test. keyup works here
-    var timer= null;
-    $('body').on('keyup', 'input', function (event) {
-        console.log('keyup: ', event);
-        if(timer!=null){
-            clearTimeout(timer)
-        }
-        timer= setTimeout(autoComplete,500)
-    });
-    //end keyup
-});
+//    var timer= null;
+//    $('body').on('keyup', 'input', function (event) {
+//        console.log('keyup: ', event);
+//        if(timer!=null){
+//            clearTimeout(timer)
+//        }
+//        timer= setTimeout(autoComplete,500)
+//    });
+//    //end keyup
+//});
 
