@@ -1,32 +1,18 @@
-/**
- * Define all global variables here
- */
-/**
- * student_array - global array to hold student objects
- * @type {Array}
- */
 //global array variable defined
 var student_array = [];
-/**
- * inputIds - id's of the elements that are used to add students
- * @type {string[]}
- */
+
 var inputIds = ['studentName', 'course', 'studentGrade'];
-/**
- * addClicked - Event Handler when user clicks the add button
- */
+
 //inline onclick added to button
     //defines what the add button will do once it is clicked. it will add new students
     //update the data of the students
     //and all input fields will be cleared once added
 function addStudentClicked(){
-        addStudent();
-        updateData();
-        clearAddStudentForm();
+     addStudent();
+     updateData();
+     clearAddStudentForm();
     }
-/**
- * cancelClicked - Event Handler when user clicks the cancel button, should clear out student form
- */
+
 //inline onclick added to button
     //when the canceled button is clicked all input fields will be cleared
 function cancelClicked(){
@@ -37,12 +23,6 @@ function getDataClicked(){
     getServerData();
 }
 
-
-/**
- * addStudent - creates a student objects based on input fields in the form and adds the object to global student array
- *
- * @return undefined
- */
 //function to add new students
     //variable with a empty object
     //variable of name added set equal to the jquery selector of input with attribute of name equal to the student name and return the value.
@@ -89,20 +69,12 @@ function addStudent(student_data) {
 
 }
 
-
-/**
- * clearAddStudentForm - clears out the form values based on inputIds variable
- */
 //a function to clear the input fields
     //jquery selector selecting the input fields and setting the val to an empty string
 function clearAddStudentForm() {
     $('input').val('');
 }
 
-/**
- * calculateAverage - loop through the global student array and calculate average grade and return that value
- * @returns {number}
- */
 //a function to calculate the average grade and display the average
     //local variable of the totalGrades equal to zero
     //for loop going through the student array length
@@ -120,9 +92,7 @@ function calculateAverage() {
     //console.log("total avg", totalAvg);
     return totalAvg;
 }
-/**
- * updateData - centralized function to update the average and call student list update
- */
+
 //function to update the data
     //a jquery selector selecting the class of avgGrade with a text method calling the calculateAverage function
     //call the function to update the student list
@@ -130,9 +100,7 @@ function updateData(){
     $('.avgGrade').text(calculateAverage());
     updateStudentList();
 }
-/**
- * updateStudentList - loops through global student array and appends each objects data into the student-list-container > list-body
- */
+
 //loop through student array
     //call addStudentToDom for each student in the array
 function updateStudentList(){
@@ -149,11 +117,6 @@ function updateStudentList(){
 
 }
 
-/**
- * addStudentToDom - take in a student object, create html elements from the values and then append the elements
- * into the .student_list tbody
- * @param studentObj
- */
 //get a student from parameter
 //create the tr for the student
 //create the name td
@@ -225,9 +188,7 @@ $('body').on('keyup', 'input', function (event) {
     timer= setTimeout(autoComplete,500)
 });
 //end of timer
-/**
- * reset - resets the application to initial state. Global variables reset, DOM get reset to initial load state
- */
+
 //function to reset the application
     //set the student array to and empty array
     //call the function to update the student list
@@ -237,10 +198,6 @@ function reset(){
     var unavailable = $('<td>').addClass('noData').attr('colSpan','4').html('<h4>User Info Unavailable</h4>');
     $('.student-list > tbody').append(unavailable);
 }
-
-/**
- * Listen for the document to load and reset the data to the initial state
- */
 
 //v1.0 scope
 var serverData;
@@ -262,31 +219,6 @@ function getServerData() {
         }
     })
 }
-
-
-/*
-success: function (result) {
-    console.log('ajax was a success' + result);
-    $("#photo"  + interest + index).html(""); //clears the photo divs   //is this appending to the class photo div?
-
-    global_result = result;
-    for (var i = 0; i < global_result.photos.photo.length; i++) {
-        var farm = global_result.photos.photo[i].farm;
-        var id = global_result.photos.photo[i].id;
-        var secret = global_result.photos.photo[i].secret;
-        var server = global_result.photos.photo[i].server;
-        var url = ('https://farm' + farm + '.staticflickr.com/' + server + "/" + id + "_" + secret + '.jpg' );
-        attractionImg = $('<img>').attr('src', url);
-
-        $("#photo"  + interest + index).append(attractionImg);
-
-    }
-}
-});
-
-console.log("I posted a photo woohoo");
-};
-*/
 
 //onload event that will call the reset function
 
@@ -313,9 +245,6 @@ function high_and_low_grade( studentGrade ) {
         console.log("High Grade: " + highgrade, "Low Grade: " + lowgrade);
     }
 }
-
-
-
 
 //highlight function will highlight highest and lowest grades
 
