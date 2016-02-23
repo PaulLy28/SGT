@@ -62,13 +62,15 @@ function addStudent() {
         student_array.push(student_object);
         $('.noData').remove();
         console.log(student_object);
-        updateStudentList();
         highlighter();
+        updateStudentList();
+
     }
     else {
         console.log("error");
         return undefined;
     }
+
 }
 
 
@@ -174,11 +176,8 @@ function addStudentToDom(studentObj, index){
         tdDelete.append(deleteButtonNew);
         trNew.append(tdName, tdCourse, tdGrade, tdDelete);
     $(".student-list > tbody").append(trNew);
+    //highlighter();
 }
-
-
-
-
 
 //code below is for the autocomplete.
 var courseList ={};
@@ -225,28 +224,31 @@ function highlighter(){
     var lowest = 100;
     var highest = 0;
     var temp;
-    for (var i = 0; i< student_array.length; i++) {
+    for (var i = student_array.length-1; i >= 0; i--) {
         temp = student_array[i].studentGrade;
         if (temp < lowest) {
             lowest = temp;
+            $('.table.student-list > tbody > tr.table:nth-child(' + i + ') > td ').addClass('bg-danger');
         }
         if (temp > highest) {
             highest = temp;
+            $('.table.table > tbody > tr.table:nth-child(' + i + ') > td ').addClass('bg-success');
         }
     }
     console.log('highest is', highest);
     console.log('lowest is', lowest);
 }
 
-    //moved keyup code here to test. keyup works here
-//    var timer= null;
-//    $('body').on('keyup', 'input', function (event) {
-//        console.log('keyup: ', event);
-//        if(timer!=null){
-//            clearTimeout(timer)
-//        }
-//        timer= setTimeout(autoComplete,500)
-//    });
-//    //end keyup
-//});
+    //
+    ////moved keyup code here to test. keyup works here
+    //var timer= null;
+    //$('body').on('keyup', 'input', function (event) {
+    //    console.log('keyup: ', event);
+    //    if(timer!=null){
+    //        clearTimeout(timer)
+    //    }
+    //    timer= setTimeout(autoComplete,500)
+    //});
+    ////end keyup
+
 
