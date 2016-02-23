@@ -98,7 +98,7 @@ function calculateAverage() {
     var totalGrades = 0;
     for (var i = 0; i < student_array.length; i++) {
         totalGrades += parseInt(student_array[i].studentGrade);
-        console.log("totalGrades", totalGrades);
+        //console.log("totalGrades", totalGrades);
     }
     var totalAvg = Math.round(totalGrades / student_array.length);
     //console.log("total avg", totalAvg);
@@ -121,8 +121,10 @@ function updateData(){
     //call addStudentToDom for each student in the array
 function updateStudentList(){
     $('tbody > tr').remove();
-    for(var i= 0; i < student_array.length; ++i)
-        addStudentToDom(student_array[i],i);
+    for(var i= 0; i < student_array.length; i++) {
+        console.log(student_array[i]);
+        addStudentToDom(student_array[i], i);
+    }
 }
 
 /**
@@ -167,8 +169,8 @@ function addStudentToDom(studentObj, index){
             click: function(){
                 console.log('element is ',trNew,studentObj);
                 console.log('this object is in element # '+index);
-                student_array.splice(student_array.indexOf(studentObj),1);
-                $(this).parents('tr').remove();
+                student_array.splice(student_array.indexOf(studentObj), 1);
+                trNew.remove();
             }
         });
         tdDelete.append(deleteButtonNew);
@@ -248,4 +250,5 @@ function highlighter(){
     //    timer= setTimeout(autoComplete,500)
     //});
     ////end keyup
+
 
