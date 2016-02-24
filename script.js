@@ -115,7 +115,8 @@ function updateStudentList(){
         addStudentToDom(student_array[i], i);
     }
 }
-
+//studentObj parameter is the object in the student array
+//index parameter is the the position of the object (studentObj) in the student array
 function addStudentToDom(studentObj, index){
         var trNew = $("<tr>");
         var tdName = $("<td>",{
@@ -134,7 +135,7 @@ function addStudentToDom(studentObj, index){
             class: "btn btn-danger",
             'data-index': index,
             click: function(){
-                var dataIndex = $(this).attr("data-index");//added this for v2.0
+             //   var dataIndex = $(this).attr("data-index");//added this for v2.0
                 var newIndex = student_array.indexOf(studentObj);
                 console.log('element is ',trNew,studentObj,newIndex);
                 console.log('this object is in element # '+index);
@@ -153,25 +154,6 @@ function addStudentToDom(studentObj, index){
         $(".student-list > tbody").append(trNew);
         studentObj.element = trNew;
 }
-
-//code below is for the autocomplete.
-var courseList ={};
-function autoComplete(input){
-    for(var i=0; i < student_array.length; i++)
-    var course =student_array[i].course;
-    courseList[course]=1;
-}
-
-//timer for the autocomplete. Not required but nice feature
-var timer= null;
-$('body').on('keyup', 'input', function (event) {
-    console.log('keyup: ', event);
-    if(timer!=null){
-        clearTimeout(timer);
-    }
-    timer= setTimeout(autoComplete,500);
-});
-//end of timer
 
 //function to reset the application
     //set the student array to and empty array
@@ -202,13 +184,14 @@ function getServerData() {
         }
     });
 }
-
-//var delData;
+//studentobj is a parameter that is each student object in the student array
+//in the success function the parameter response is the result being returned from the ajax call
+//the conditional below verifies if the ajax call is successful then that object in the student array will be deleted (element is the table row)
+//declared a variable that is referencing the index position of the student object in the student array
+//in the student array remove 1 student object
+//if success is false then alert message will appear. in the alert message it is targeting the response and in the response the errors at position 0. (in the dev tool, network tab, select "delete", preview tab, expand success false, expand errors, shows position.
 function deleteStudentFromServer(studentObj){
-   // var dataIndex = $('button').attr("data-index");
-    //console.log("index", student_array[index]);
     var deleteData = {api_key: "1fu4QTyxd4", student_id: studentObj.id};
-
     $.ajax({
         dataType: "json",
         data: deleteData,
@@ -260,6 +243,25 @@ function addStudentToServer(){
 $(document).ready(function(){
     reset();
 });
+
+//code below is for the autocomplete.
+var courseList ={};
+function autoComplete(input){
+    for(var i=0; i < student_array.length; i++)
+        var course =student_array[i].course;
+    courseList[course]=1;
+}
+
+//timer for the autocomplete. Not required but nice feature
+var timer= null;
+$('body').on('keyup', 'input', function (event) {
+    console.log('keyup: ', event);
+    if(timer!=null){
+        clearTimeout(timer);
+    }
+    timer= setTimeout(autoComplete,500);
+});
+//end of timer
 
 //Function to check for the lowest and highest grades
 var highgrade = null;
