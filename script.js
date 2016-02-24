@@ -80,16 +80,12 @@ function addStudent(student_data) {
         console.log(student_object);
         high_and_low_grade(student_object.studentGrade);
         updateStudentList();
-
     }
     else {
         console.log("error");
         return undefined;
     }
-
 }
-
-
 /**
  * clearAddStudentForm - clears out the form values based on inputIds variable
  */
@@ -98,7 +94,6 @@ function addStudent(student_data) {
 function clearAddStudentForm() {
     $('input').val('');
 }
-
 /**
  * calculateAverage - loop through the global student array and calculate average grade and return that value
  * @returns {number}
@@ -146,30 +141,7 @@ function updateStudentList(){
         console.log(student_array[i]);
         addStudentToDom(student_array[i], i);
     }
-
 }
-
-/**
- * addStudentToDom - take in a student object, create html elements from the values and then append the elements
- * into the .student_list tbody
- * @param studentObj
- */
-//get a student from parameter
-//create the tr for the student
-//create the name td
-    //fill it with the student's name
-//create the course td
-    //fill it with the student's course
-//create the grade td
-    //fill it with the student's grade
-//create the button td
-    //create the button
-        //fill the button with text
-        //fill the button with classes
-//add the click handler onto the button
-//add the button into the button td
-//add the name td, course td, grade td, and button td into the student-list tbody
-//drink beer
 
 function addStudentToDom(studentObj, index){
         var trNew = $("<tr>");
@@ -243,7 +215,7 @@ function reset(){
  */
 
 //v1.0 scope
-var serverData;
+//var serverData;
 function getServerData() {
     var apiKey = {api_key: "1fu4QTyxd4"};
     $.ajax({
@@ -252,48 +224,42 @@ function getServerData() {
         method: "post",
         url: "http://s-apis.learningfuze.com/sgt/get",
         success: function (response) {
-            serverData = response;
+            //serverData = response;
             console.log('this work');
-            for(var i = 0; i < serverData.data.length; i++){
+            for(var i = 0; i < response.data.length; i++){
                 //student_array.push(serverData.data[i]);
-                addStudent(serverData.data[i]);
+                addStudent(response.data[i]);
             }
             updateStudentList();
         }
     })
 }
-
-
-/*
-success: function (result) {
-    console.log('ajax was a success' + result);
-    $("#photo"  + interest + index).html(""); //clears the photo divs   //is this appending to the class photo div?
-
-    global_result = result;
-    for (var i = 0; i < global_result.photos.photo.length; i++) {
-        var farm = global_result.photos.photo[i].farm;
-        var id = global_result.photos.photo[i].id;
-        var secret = global_result.photos.photo[i].secret;
-        var server = global_result.photos.photo[i].server;
-        var url = ('https://farm' + farm + '.staticflickr.com/' + server + "/" + id + "_" + secret + '.jpg' );
-        attractionImg = $('<img>').attr('src', url);
-
-        $("#photo"  + interest + index).append(attractionImg);
-
-    }
+//var studentDataToServer;
+function addStudentToServer(){
+    $.ajax({
+        dataType: 'json',
+        data: {
+            api_key: "1fu4QTyxd4",
+            name: $("input[name=studentName]").val(),//student's name
+            course: $("input[name=course]").val(),//student's course
+            grade: parseInt($("input[name=studentGrade]").val()),
+            id: 'new_value'
+        },
+        method: 'post',
+        url: 'http://s-apis.learningfuze.com/sgt/create',
+        success: function(response){
+            console.log('the ajax call is successful! ', response);
+        },
+        error: function(response){
+            console.log('the ajax call is unsuccessful! ');
+        }
+    })
 }
-});
-
-console.log("I posted a photo woohoo");
-};
-*/
-
 //onload event that will call the reset function
 
 $(document).ready(function(){
     reset();
 });
-
 
 //Function to check for the lowest and highest grades
 var highgrade = null;
@@ -313,8 +279,6 @@ function high_and_low_grade( studentGrade ) {
         console.log("High Grade: " + highgrade, "Low Grade: " + lowgrade);
     }
 }
-
-
 
 
 //highlight function will highlight highest and lowest grades
