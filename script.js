@@ -10,8 +10,9 @@ var inputIds = ['studentName', 'course', 'studentGrade'];
 function addStudentClicked(){
     addStudent();
     updateData();
+    addStudentToServer();
     clearAddStudentForm();
-    addStudentToServer()
+
 }
 
 //inline onclick added to button
@@ -48,17 +49,17 @@ function addStudent(student_data) {
         var nameAdded = student_data.name;
         var courseAdded = student_data.course;
         var gradeAdded = student_data.grade;
-        //var studentID = student_data.id;
+        var studentID = student_data.id;
     }
     //if (nameAdded != null && courseAdded != null && gradeAdded != null) {
     if ($("input") != null) {
         student_object.studentName = nameAdded;
         student_object.course = courseAdded;
         student_object.studentGrade = parseInt(gradeAdded);
-        //student_object.id = studentID;
+        student_object.id = studentID;
         student_array.push(student_object);
         $('.noData').remove();
-        console.log(student_object);
+        //console.log(student_object);
         high_and_low_grade(student_object.studentGrade);
         updateStudentList();
     }
@@ -110,7 +111,7 @@ function updateStudentList(){
 
     $('tbody > tr').remove();
     for(var i= 0; i < student_array.length; i++) {
-        console.log(student_array[i]);
+        //console.log(student_array[i]);
         addStudentToDom(student_array[i], i);
     }
 }
@@ -133,15 +134,17 @@ function addStudentToDom(studentObj, index){
             class: "btn btn-danger",
             'data-index': index,
             click: function(){
+                var dataIndex = $(this).attr("data-index");//added this for v2.0
                 var newIndex = student_array.indexOf(studentObj);
                 console.log('element is ',trNew,studentObj,newIndex);
                 console.log('this object is in element # '+index);
+                deleteStudentFromServer(studentObj);
 
-                student_array.splice(newIndex, 1);
-                $(this).parents('tr').remove();
 
-                student_array.splice(student_array.indexOf(studentObj), 1);
-                trNew.remove();
+                //student_array.splice(student_array.indexOf(studentObj), 1);
+                //trNew.remove();
+
+               // console.log(this);
 
             }
         });
@@ -190,7 +193,7 @@ function getServerData() {
         url: "http://s-apis.learningfuze.com/sgt/get",
         success: function (response) {
             //serverData = response;
-            console.log('this work');
+            console.log(response);
             for(var i = 0; i < response.data.length; i++){
                 //student_array.push(serverData.data[i]);
                 addStudent(response.data[i]);
@@ -200,22 +203,27 @@ function getServerData() {
     });
 }
 
-var delData;
-function deleteStudentFromServer(){
-    var deleteData = {api_key: "1fu4QTyxd4", student_id: ""};
+//var delData;
+function deleteStudentFromServer(studentObj){
+   // var dataIndex = $('button').attr("data-index");
+    //console.log("index", student_array[index]);
+    var deleteData = {api_key: "1fu4QTyxd4", student_id: studentObj.id};
+
     $.ajax({
         dataType: "json",
         data: deleteData,
         method: "post",
         url: "http://s-apis.learningfuze.com/sgt/delete",
         success: function(response) {
-             delData = response;
-            console.log('this work');
-/*            for(var i = 0; i < delData.data.length; i++){
-                //student_array.push(serverData.data[i]);
-                addStudent(serverData.data[i]);
-            }
-            updateStudentList();*/
+                if (response.success === true) {
+                    studentObj.element.remove();
+                    var studentIndex = student_array.indexOf(studentObj);
+                    student_array.splice(studentIndex, 1);
+                }
+                else {
+                    alert(response.errors[0]);
+                }
+            //console.log("response", response);
         }
     });
 }
@@ -238,6 +246,8 @@ function addStudentToServer(){
         url: 'http://s-apis.learningfuze.com/sgt/create',
         success: function(response){
             console.log('the ajax call is successful! ', response);
+            console.log("data", $("input[name=studentName]").val(), $("input[name=course]").val(),
+                parseInt($("input[name=studentGrade]").val()));
         },
         error: function(response){
             console.log('the ajax call is unsuccessful! ');
