@@ -174,7 +174,7 @@ function addStudentToDom(studentObj, index){
 var courseList ={};
 function autoComplete(input){
     for(var i=0; i < student_array.length; i++)
-    var course =student_array[i].course
+    var course =student_array[i].course;
     courseList[course]=1;
 }
 
@@ -183,9 +183,9 @@ var timer= null;
 $('body').on('keyup', 'input', function (event) {
     console.log('keyup: ', event);
     if(timer!=null){
-        clearTimeout(timer)
+        clearTimeout(timer);
     }
-    timer= setTimeout(autoComplete,500)
+    timer= setTimeout(autoComplete,500);
 });
 //end of timer
 
@@ -217,8 +217,28 @@ function getServerData() {
             }
             updateStudentList();
         }
-    })
+    });
 }
+var delData;
+function deleteStudentFromServer(){
+    var deleteData = {api_key: "1fu4QTyxd4", student_id: ""};
+    $.ajax({
+        dataType: "json",
+        data: deleteData,
+        method: "post",
+        url: "http://s-apis.learningfuze.com/sgt/delete",
+        success: function(response) {
+             delData = response;
+            console.log('this work');
+/*            for(var i = 0; i < delData.data.length; i++){
+                //student_array.push(serverData.data[i]);
+                addStudent(serverData.data[i]);
+            }
+            updateStudentList();*/
+        }
+    });
+}
+
 
 //onload event that will call the reset function
 
