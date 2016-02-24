@@ -8,10 +8,11 @@ var inputIds = ['studentName', 'course', 'studentGrade'];
     //update the data of the students
     //and all input fields will be cleared once added
 function addStudentClicked(){
-     addStudent();
-     updateData();
-     clearAddStudentForm();
-    }
+    addStudent();
+    updateData();
+    clearAddStudentForm();
+    addStudentToServer()
+}
 
 //inline onclick added to button
     //when the canceled button is clicked all input fields will be cleared
@@ -41,32 +42,30 @@ function addStudent(student_data) {
         var nameAdded = $("input[name=studentName]").val();
         var courseAdded = $("input[name=course]").val();
         var gradeAdded = $("input[name=studentGrade]").val();
-        var studentID='new_value';
+        //var studentID='new_value';
     }
     else{
         var nameAdded = student_data.name;
         var courseAdded = student_data.course;
         var gradeAdded = student_data.grade;
-        var studentID = student_data.id;
+        //var studentID = student_data.id;
     }
     //if (nameAdded != null && courseAdded != null && gradeAdded != null) {
     if ($("input") != null) {
         student_object.studentName = nameAdded;
         student_object.course = courseAdded;
         student_object.studentGrade = parseInt(gradeAdded);
-        student_object.id = studentID;
+        //student_object.id = studentID;
         student_array.push(student_object);
         $('.noData').remove();
         console.log(student_object);
         high_and_low_grade(student_object.studentGrade);
         updateStudentList();
-
     }
     else {
         console.log("error");
         return undefined;
     }
-
 }
 
 //a function to clear the input fields
@@ -86,7 +85,7 @@ function calculateAverage() {
     var totalGrades = 0;
     for (var i = 0; i < student_array.length; i++) {
         totalGrades += parseInt(student_array[i].studentGrade);
-        console.log("totalGrades", totalGrades);
+        //console.log("totalGrades", totalGrades);
     }
     var totalAvg = Math.round(totalGrades / student_array.length);
     //console.log("total avg", totalAvg);
@@ -114,25 +113,7 @@ function updateStudentList(){
         console.log(student_array[i]);
         addStudentToDom(student_array[i], i);
     }
-
 }
-
-//get a student from parameter
-//create the tr for the student
-//create the name td
-    //fill it with the student's name
-//create the course td
-    //fill it with the student's course
-//create the grade td
-    //fill it with the student's grade
-//create the button td
-    //create the button
-        //fill the button with text
-        //fill the button with classes
-//add the click handler onto the button
-//add the button into the button td
-//add the name td, course td, grade td, and button td into the student-list tbody
-//drink beer
 
 function addStudentToDom(studentObj, index){
         var trNew = $("<tr>");
@@ -200,7 +181,6 @@ function reset(){
 }
 
 //v1.0 scope
-var serverData;
 function getServerData() {
     var apiKey = {api_key: "1fu4QTyxd4"};
     $.ajax({
@@ -209,16 +189,17 @@ function getServerData() {
         method: "post",
         url: "http://s-apis.learningfuze.com/sgt/get",
         success: function (response) {
-            serverData = response;
+            //serverData = response;
             console.log('this work');
-            for(var i = 0; i < serverData.data.length; i++){
+            for(var i = 0; i < response.data.length; i++){
                 //student_array.push(serverData.data[i]);
-                addStudent(serverData.data[i]);
+                addStudent(response.data[i]);
             }
             updateStudentList();
         }
     });
 }
+
 var delData;
 function deleteStudentFromServer(){
     var deleteData = {api_key: "1fu4QTyxd4", student_id: ""};
@@ -239,13 +220,36 @@ function deleteStudentFromServer(){
     });
 }
 
+//var studentDataToServer;
+function addStudentToServer(){
+    $.ajax({
+        dataType: 'json',
+        data: {
+            api_key: "1fu4QTyxd4",
+            /*name: 'Kenneth',
+            course: 'Anatomy',
+            grade: 55,*/
+            name: $("input[name=studentName]").val(),//student's name
+            course: $("input[name=course]").val(),//student's course
+            grade: parseInt($("input[name=studentGrade]").val()),
+            id: 'new_value'
+        },
+        method: 'post',
+        url: 'http://s-apis.learningfuze.com/sgt/create',
+        success: function(response){
+            console.log('the ajax call is successful! ', response);
+        },
+        error: function(response){
+            console.log('the ajax call is unsuccessful! ');
+        }
+    })
+}
 
 //onload event that will call the reset function
 
 $(document).ready(function(){
     reset();
 });
-
 
 //Function to check for the lowest and highest grades
 var highgrade = null;
