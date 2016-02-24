@@ -43,7 +43,9 @@ function addStudent(student_data, response) {
     /*if(student_data.success == true){
         var studentID =
     }*/
-    if(student_data === undefined) {
+    console.log("data", $("input[name=studentName]").val(), $("input[name=course]").val(), parseInt($("input[name=studentGrade]").val()));
+    //console.log("data", $("#studentName").val(), $("#course").val(), parseInt($("#studentGrade").val()));
+    if(student_data == undefined) {
         var nameAdded = $("input[name=studentName]").val();
         var courseAdded = $("input[name=course]").val();
         var gradeAdded = $("input[name=studentGrade]").val();
