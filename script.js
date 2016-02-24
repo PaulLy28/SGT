@@ -8,9 +8,9 @@ var inputIds = ['studentName', 'course', 'studentGrade'];
     //update the data of the students
     //and all input fields will be cleared once added
 function addStudentClicked(){
-    addStudent();
-    updateData();
     addStudentToServer();
+    //addStudent();
+    updateData();
     clearAddStudentForm();
 
 }
@@ -37,13 +37,17 @@ function getDataClicked(){
         //after all key values for the new student has been stored to the student object push the data into the student_array variable
         //call function to update the student list
     //a conditional for when the input fields are not null to return undefined
-function addStudent(student_data) {
+function addStudent(student_data, response) {
     student_object = {};
+    console.log('student data parameter', student_data);
+    /*if(student_data.success == true){
+        var studentID =
+    }*/
     if(student_data === undefined) {
         var nameAdded = $("input[name=studentName]").val();
         var courseAdded = $("input[name=course]").val();
         var gradeAdded = $("input[name=studentGrade]").val();
-        //var studentID='new_value';
+        var studentID = response.new_id;
     }
     else{
         var nameAdded = student_data.name;
@@ -212,7 +216,7 @@ function deleteStudentFromServer(studentObj){
 }
 
 //var studentDataToServer;
-function addStudentToServer(){
+function addStudentToServer(studentObj){
     $.ajax({
         dataType: 'json',
         data: {
@@ -228,9 +232,15 @@ function addStudentToServer(){
         method: 'post',
         url: 'http://s-apis.learningfuze.com/sgt/create',
         success: function(response){
-            console.log('the ajax call is successful! ', response);
-            console.log("data", $("input[name=studentName]").val(), $("input[name=course]").val(),
-                parseInt($("input[name=studentGrade]").val()));
+            if(response.success){
+                console.log('the ajax call is successful! ', response);
+                //console.log(studentObj);
+                addStudent(studentObj, response);
+                //console.log("data", $("input[name=studentName]").val(), $("input[name=course]").val(),
+                    //parseInt($("input[name=studentGrade]").val()));
+            } else{
+                alert(response.errors);
+            }
         },
         error: function(response){
             console.log('the ajax call is unsuccessful! ');
