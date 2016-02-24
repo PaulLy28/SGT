@@ -20,17 +20,22 @@ var inputIds = ['studentName', 'course', 'studentGrade'];
     //update the data of the students
     //and all input fields will be cleared once added
 function addStudentClicked(){
-        addStudent();
-        updateData();
-        clearAddStudentForm();
-    }
+    addStudent();
+    updateData();
+    clearAddStudentForm();
+    addStudentToServer()
+}
 /**
  * cancelClicked - Event Handler when user clicks the cancel button, should clear out student form
  */
 //inline onclick added to button
     //when the canceled button is clicked all input fields will be cleared
-  function cancelClicked(){
+function cancelClicked(){
     clearAddStudentForm();
+}
+
+function getDataClicked(){
+    getServerData();
 }
 /**
  * addStudent - creates a student objects based on input fields in the form and adds the object to global student array
@@ -49,31 +54,37 @@ function addStudentClicked(){
         //after all key values for the new student has been stored to the student object push the data into the student_array variable
         //call function to update the student list
     //a conditional for when the input fields are not null to return undefined
-function addStudent() {
+function addStudent(student_data) {
     student_object = {};
-    var nameAdded = $("input[name=studentName]").val();
-    var courseAdded = $("input[name=course]").val();
-    var gradeAdded = $("input[name=studentGrade]").val();
+    if(student_data === undefined) {
+        var nameAdded = $("input[name=studentName]").val();
+        var courseAdded = $("input[name=course]").val();
+        var gradeAdded = $("input[name=studentGrade]").val();
+        //var studentID='new_value';
+    }
+    else{
+        var nameAdded = student_data.name;
+        var courseAdded = student_data.course;
+        var gradeAdded = student_data.grade;
+        //var studentID = student_data.id;
+    }
     //if (nameAdded != null && courseAdded != null && gradeAdded != null) {
     if ($("input") != null) {
         student_object.studentName = nameAdded;
         student_object.course = courseAdded;
-        student_object.studentGrade = gradeAdded;
+        student_object.studentGrade = parseInt(gradeAdded);
+        //student_object.id = studentID;
         student_array.push(student_object);
         $('.noData').remove();
         console.log(student_object);
-        highlighter();
+        high_and_low_grade(student_object.studentGrade);
         updateStudentList();
-
     }
     else {
         console.log("error");
         return undefined;
     }
-
 }
-
-
 /**
  * clearAddStudentForm - clears out the form values based on inputIds variable
  */
@@ -82,15 +93,14 @@ function addStudent() {
 function clearAddStudentForm() {
     $('input').val('');
 }
-
 /**
  * calculateAverage - loop through the global student array and calculate average grade and return that value
  * @returns {number}
  */
 //a function to calculate the average grade and display the average
-    //local varialbe of the totalGrades equal to zero
+    //local variable of the totalGrades equal to zero
     //for loop going through the student array length
-    //conccat the totalGrades added to the student array at index position with object key of studentGrade
+    //concat the totalGrades added to the student array at index position with object key of studentGrade
     //end the for loop
     //a variable of the totalAvg is equal to the totalGrades divided by the student array length
     //return the totalAvg
@@ -120,34 +130,17 @@ function updateData(){
 //loop through student array
     //call addStudentToDom for each student in the array
 function updateStudentList(){
+
+    $("tbody").empty();
+    for(var i= 0; i < student_array.length; ++i)
+        addStudentToDom(student_array[i],i);
+
     $('tbody > tr').remove();
     for(var i= 0; i < student_array.length; i++) {
         console.log(student_array[i]);
         addStudentToDom(student_array[i], i);
     }
 }
-
-/**
- * addStudentToDom - take in a student object, create html elements from the values and then append the elements
- * into the .student_list tbody
- * @param studentObj
- */
-//get a student from parameter
-//create the tr for the student
-//create the name td
-    //fill it with the student's name
-//create the course td
-    //fill it with the student's course
-//create the grade td
-    //fill it with the student's grade
-//create the button td
-    //create the button
-        //fill the button with text
-        //fill the button with classes
-//add the click handler onto the button
-//add the button into the button td
-//add the name td, course td, grade td, and button td into the student-list tbody
-//drink beer
 
 function addStudentToDom(studentObj, index){
         var trNew = $("<tr>");
@@ -167,16 +160,22 @@ function addStudentToDom(studentObj, index){
             class: "btn btn-danger",
             'data-index': index,
             click: function(){
-                console.log('element is ',trNew,studentObj);
+                var newIndex = student_array.indexOf(studentObj);
+                console.log('element is ',trNew,studentObj,newIndex);
                 console.log('this object is in element # '+index);
+
+                student_array.splice(newIndex, 1);
+                $(this).parents('tr').remove();
+
                 student_array.splice(student_array.indexOf(studentObj), 1);
                 trNew.remove();
+
             }
         });
         tdDelete.append(deleteButtonNew);
         trNew.append(tdName, tdCourse, tdGrade, tdDelete);
-    $(".student-list > tbody").append(trNew);
-    //highlighter();
+        $(".student-list > tbody").append(trNew);
+        studentObj.element = trNew;
 }
 
 //code below is for the autocomplete.
@@ -213,10 +212,75 @@ function reset(){
 /**
  * Listen for the document to load and reset the data to the initial state
  */
+
+//v1.0 scope
+function getServerData() {
+    var apiKey = {api_key: "1fu4QTyxd4"};
+    $.ajax({
+        dataType: "json",
+        data: apiKey,
+        method: "post",
+        url: "http://s-apis.learningfuze.com/sgt/get",
+        success: function (response) {
+            //serverData = response;
+            console.log('this work');
+            for(var i = 0; i < response.data.length; i++){
+                //student_array.push(serverData.data[i]);
+                addStudent(response.data[i]);
+            }
+            updateStudentList();
+        }
+    })
+}
+//var studentDataToServer;
+function addStudentToServer(){
+    $.ajax({
+        dataType: 'json',
+        data: {
+            api_key: "1fu4QTyxd4",
+            /*name: 'Kenneth',
+            course: 'Anatomy',
+            grade: 55,*/
+            name: $("input[name=studentName]").val(),//student's name
+            course: $("input[name=course]").val(),//student's course
+            grade: parseInt($("input[name=studentGrade]").val()),
+            id: 'new_value'
+        },
+        method: 'post',
+        url: 'http://s-apis.learningfuze.com/sgt/create',
+        success: function(response){
+            console.log('the ajax call is successful! ', response);
+        },
+        error: function(response){
+            console.log('the ajax call is unsuccessful! ');
+        }
+    })
+}
 //onload event that will call the reset function
+
 $(document).ready(function(){
     reset();
 });
+
+//Function to check for the lowest and highest grades
+var highgrade = null;
+var lowgrade = null;
+function high_and_low_grade( studentGrade ) {
+    if( highgrade == null ) {
+        highgrade = studentGrade;
+        lowgrade = studentGrade;
+        console.log("High Grade: " + highgrade, "Low Grade: " + lowgrade);
+    }
+    else if( studentGrade > highgrade ) {
+        highgrade = studentGrade;
+        console.log("High Grade: " + highgrade, "Low Grade: " + lowgrade);
+    }
+    else if( studentGrade < lowgrade ) {
+        lowgrade = studentGrade;
+        console.log("High Grade: " + highgrade, "Low Grade: " + lowgrade);
+    }
+}
+
 
 //highlight function will highlight highest and lowest grades
 
