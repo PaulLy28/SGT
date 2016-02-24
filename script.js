@@ -20,10 +20,11 @@ var inputIds = ['studentName', 'course', 'studentGrade'];
     //update the data of the students
     //and all input fields will be cleared once added
 function addStudentClicked(){
-        addStudent();
-        updateData();
-        clearAddStudentForm();
-    }
+    addStudent();
+    updateData();
+    clearAddStudentForm();
+    addStudentToServer()
+}
 /**
  * cancelClicked - Event Handler when user clicks the cancel button, should clear out student form
  */
@@ -36,8 +37,6 @@ function cancelClicked(){
 function getDataClicked(){
     getServerData();
 }
-
-
 /**
  * addStudent - creates a student objects based on input fields in the form and adds the object to global student array
  *
@@ -61,20 +60,20 @@ function addStudent(student_data) {
         var nameAdded = $("input[name=studentName]").val();
         var courseAdded = $("input[name=course]").val();
         var gradeAdded = $("input[name=studentGrade]").val();
-        var studentID='new_value';
+        //var studentID='new_value';
     }
     else{
         var nameAdded = student_data.name;
         var courseAdded = student_data.course;
         var gradeAdded = student_data.grade;
-        var studentID = student_data.id;
+        //var studentID = student_data.id;
     }
     //if (nameAdded != null && courseAdded != null && gradeAdded != null) {
     if ($("input") != null) {
         student_object.studentName = nameAdded;
         student_object.course = courseAdded;
         student_object.studentGrade = parseInt(gradeAdded);
-        student_object.id = studentID;
+        //student_object.id = studentID;
         student_array.push(student_object);
         $('.noData').remove();
         console.log(student_object);
@@ -109,7 +108,7 @@ function calculateAverage() {
     var totalGrades = 0;
     for (var i = 0; i < student_array.length; i++) {
         totalGrades += parseInt(student_array[i].studentGrade);
-        console.log("totalGrades", totalGrades);
+        //console.log("totalGrades", totalGrades);
     }
     var totalAvg = Math.round(totalGrades / student_array.length);
     //console.log("total avg", totalAvg);
@@ -215,7 +214,6 @@ function reset(){
  */
 
 //v1.0 scope
-//var serverData;
 function getServerData() {
     var apiKey = {api_key: "1fu4QTyxd4"};
     $.ajax({
@@ -240,6 +238,9 @@ function addStudentToServer(){
         dataType: 'json',
         data: {
             api_key: "1fu4QTyxd4",
+            /*name: 'Kenneth',
+            course: 'Anatomy',
+            grade: 55,*/
             name: $("input[name=studentName]").val(),//student's name
             course: $("input[name=course]").val(),//student's course
             grade: parseInt($("input[name=studentGrade]").val()),
