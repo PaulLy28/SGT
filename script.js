@@ -8,11 +8,10 @@ var inputIds = ['studentName', 'course', 'studentGrade'];
     //update the data of the students
     //and all input fields will be cleared once added
 function addStudentClicked(){
+ //   addStudent(); don't want this here anymore it will add to the dom and when you click it get data from server it will add the same one to the end once data has been loaded
+ //   updateData(); not needed as well it is called in the addStudentToServer function below
     addStudentToServer();
-    //addStudent();
-    updateData();
-    clearAddStudentForm();
-
+ //   clearAddStudentForm();  not needed here as well anymore it will be called in the addStudentToServer function
 }
 
 //inline onclick added to button
@@ -20,8 +19,9 @@ function addStudentClicked(){
 function cancelClicked(){
     clearAddStudentForm();
 }
-
+//will reset the dom and the repopulate the dom with data from the server
 function getDataClicked(){
+    reset();
     getServerData();
 }
 
@@ -37,19 +37,14 @@ function getDataClicked(){
         //after all key values for the new student has been stored to the student object push the data into the student_array variable
         //call function to update the student list
     //a conditional for when the input fields are not null to return undefined
-function addStudent(student_data, response) {
+function addStudent(student_data, fromServer) {
     student_object = {};
-    console.log('student data parameter', student_data);
-    /*if(student_data.success == true){
-        var studentID =
-    }*/
-    console.log("data", $("input[name=studentName]").val(), $("input[name=course]").val(), parseInt($("input[name=studentGrade]").val()));
-    //console.log("data", $("#studentName").val(), $("#course").val(), parseInt($("#studentGrade").val()));
-    if(student_data == undefined) {
+    if (fromServer == false){
+        //if(student_data === undefined) {
         var nameAdded = $("input[name=studentName]").val();
         var courseAdded = $("input[name=course]").val();
         var gradeAdded = $("input[name=studentGrade]").val();
-        var studentID = response.new_id;
+        var studentID= student_data;
     }
     else{
         var nameAdded = student_data.name;
@@ -57,15 +52,15 @@ function addStudent(student_data, response) {
         var gradeAdded = student_data.grade;
         var studentID = student_data.id;
     }
-    //if (nameAdded != null && courseAdded != null && gradeAdded != null) {
-    if ($("input") != null) {
+
+    if (nameAdded != "" && courseAdded != "" && parseInt(gradeAdded) != NaN) {
         student_object.studentName = nameAdded;
         student_object.course = courseAdded;
         student_object.studentGrade = parseInt(gradeAdded);
         student_object.id = studentID;
         student_array.push(student_object);
         $('.noData').remove();
-        //console.log(student_object);
+        console.log(student_object);
         high_and_low_grade(student_object.studentGrade);
         updateStudentList();
     }
@@ -111,9 +106,9 @@ function updateData(){
     //call addStudentToDom for each student in the array
 function updateStudentList(){
 
-    $("tbody").empty();
+/*    $("tbody").empty();
     for(var i= 0; i < student_array.length; ++i)
-        addStudentToDom(student_array[i],i);
+        addStudentToDom(student_array[i],i);*/
 
     $('tbody > tr').remove();
     for(var i= 0; i < student_array.length; i++) {
@@ -140,8 +135,9 @@ function addStudentToDom(studentObj, index){
             text: 'Delete',
             class: "btn btn-danger",
             'data-index': index,
+           // data-toggle: "popover",
             click: function(){
-             //   var dataIndex = $(this).attr("data-index");//added this for v2.0
+
                 var newIndex = student_array.indexOf(studentObj);
                 console.log('element is ',trNew,studentObj,newIndex);
                 console.log('this object is in element # '+index);
@@ -181,12 +177,13 @@ function getServerData() {
         url: "http://s-apis.learningfuze.com/sgt/get",
         success: function (response) {
             //serverData = response;
-            console.log(response);
+            //console.log(response);
             for(var i = 0; i < response.data.length; i++){
                 //student_array.push(serverData.data[i]);
-                addStudent(response.data[i]);
+                addStudent(response.data[i], true);
             }
-            updateStudentList();
+           // updateStudentList();
+            updateData();
         }
     });
 }
@@ -218,7 +215,8 @@ function deleteStudentFromServer(studentObj){
 }
 
 //var studentDataToServer;
-function addStudentToServer(studentObj){
+function addStudentToServer(){
+   // var idToStore;
     $.ajax({
         dataType: 'json',
         data: {
@@ -229,20 +227,22 @@ function addStudentToServer(studentObj){
             name: $("input[name=studentName]").val(),//student's name
             course: $("input[name=course]").val(),//student's course
             grade: parseInt($("input[name=studentGrade]").val()),
-            id: 'new_value'
+            //id: 'new_value'
         },
         method: 'post',
         url: 'http://s-apis.learningfuze.com/sgt/create',
         success: function(response){
-            if(response.success){
-                console.log('the ajax call is successful! ', response);
-                //console.log(studentObj);
-                addStudent(studentObj, response);
-                //console.log("data", $("input[name=studentName]").val(), $("input[name=course]").val(),
-                    //parseInt($("input[name=studentGrade]").val()));
-            } else{
-                alert(response.errors);
+            //idToStore = response.new_id;
+            //addStudent(response.new_id, false);
+            //updateData();
+            if (response.success == true) {
+                addStudent(response.new_id, false);
+                updateData();
+                clearAddStudentForm();
             }
+            console.log('the ajax call is successful! ', response);
+           // console.log("data", $("input[name=studentName]").val(), $("input[name=course]").val(),
+                //parseInt($("input[name=studentGrade]").val()));
         },
         error: function(response){
             console.log('the ajax call is unsuccessful! ');
@@ -254,9 +254,10 @@ function addStudentToServer(studentObj){
 
 $(document).ready(function(){
     reset();
+    getServerData();
 });
 
-//code below is for the autocomplete.
+/*//code below is for the autocomplete.
 var courseList ={};
 function autoComplete(input){
     for(var i=0; i < student_array.length; i++)
@@ -273,7 +274,7 @@ $('body').on('keyup', 'input', function (event) {
     }
     timer= setTimeout(autoComplete,500);
 });
-//end of timer
+//end of timer*/
 
 //Function to check for the lowest and highest grades
 var highgrade = null;
@@ -296,7 +297,7 @@ function high_and_low_grade( studentGrade ) {
 
 //highlight function will highlight highest and lowest grades
 
-function highlighter(){
+/*function highlighter(){
     var lowest = 100;
     var highest = 0;
     var temp;
@@ -313,7 +314,7 @@ function highlighter(){
     }
     console.log('highest is', highest);
     console.log('lowest is', lowest);
-}
+}*/
 
     //
     ////moved keyup code here to test. keyup works here
