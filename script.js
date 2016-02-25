@@ -120,7 +120,13 @@ function updateStudentList(){
 //studentObj parameter is the object in the student array
 //index parameter is the the position of the object (studentObj) in the student array
 function addStudentToDom(studentObj, index){
-        var trNew = $("<tr>");
+        var trNew = $("<tr>",{
+            "data-toggle": "popover",
+            "data-content": "Error",
+            //"data-trigger": "focus",
+            "data-placement": "right",
+            "data-container": "body"
+});
         var tdName = $("<td>",{
             text: studentObj.studentName
         });
@@ -143,13 +149,9 @@ function addStudentToDom(studentObj, index){
                 console.log('element is ',trNew,studentObj,newIndex);
                 console.log('this object is in element # '+index);
                 deleteStudentFromServer(studentObj);
-
-
                 //student_array.splice(student_array.indexOf(studentObj), 1);
                 //trNew.remove();
-
                // console.log(this);
-
             }
         });
         tdDelete.append(deleteButtonNew);
@@ -168,7 +170,6 @@ function reset(){
     $('.student-list > tbody').append(unavailable);
 }
 
-//v1.0 scope
 function getServerData() {
     var apiKey = {api_key: "1fu4QTyxd4"};
     $.ajax({
@@ -192,7 +193,7 @@ function getServerData() {
 //in the success function the parameter response is the result being returned from the ajax call
 //the conditional below verifies if the ajax call is successful then that object in the student array will be deleted (element is the table row)
 //declared a variable that is referencing the index position of the student object in the student array
-//in the student array remove 1 student object
+//in the student array remove 1 student object using the splice method and passing in the studentIndex variable
 //if success is false then alert message will appear. in the alert message it is targeting the response and in the response the errors at position 0. (in the dev tool, network tab, select "delete", preview tab, expand success false, expand errors, shows position.
 function deleteStudentFromServer(studentObj){
     var deleteData = {api_key: "1fu4QTyxd4", student_id: studentObj.id};
@@ -208,42 +209,36 @@ function deleteStudentFromServer(studentObj){
                     student_array.splice(studentIndex, 1);
                 }
                 else {
-                    alert(response.errors[0]);
+                    //change to modal
+                   // alert(response.errors[0]);
+                    studentObj.element.attr("data-content", response.errors[0]).popover("show");
                 }
             //console.log("response", response);
         }
     });
 }
 
-//var studentDataToServer;
+//function to add student to server
+//in the conditional when the response returns true execute the following:
+    //the addstudent function with a parameter of response targeting the new id and false (fromServer parameter), update data, and then clear the input fields.
 function addStudentToServer(){
-   // var idToStore;
     $.ajax({
         dataType: 'json',
         data: {
             api_key: "1fu4QTyxd4",
-            /*name: 'Kenneth',
-            course: 'Anatomy',
-            grade: 55,*/
             name: $("input[name=studentName]").val(),//student's name
             course: $("input[name=course]").val(),//student's course
             grade: parseInt($("input[name=studentGrade]").val()),
-            //id: 'new_value'
         },
         method: 'post',
         url: 'http://s-apis.learningfuze.com/sgt/create',
         success: function(response){
-            //idToStore = response.new_id;
-            //addStudent(response.new_id, false);
-            //updateData();
             if (response.success == true) {
                 addStudent(response.new_id, false);
                 updateData();
                 clearAddStudentForm();
             }
             console.log('the ajax call is successful! ', response);
-           // console.log("data", $("input[name=studentName]").val(), $("input[name=course]").val(),
-                //parseInt($("input[name=studentGrade]").val()));
         },
         error: function(response){
             console.log('the ajax call is unsuccessful! ');
@@ -251,8 +246,7 @@ function addStudentToServer(){
     })
 }
 
-//onload event that will call the reset function
-
+//onload event that will call the reset function and load data from server
 $(document).ready(function(){
     reset();
     getServerData();
