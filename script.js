@@ -12,7 +12,6 @@ function addStudentClicked(){
  //   updateData(); not needed as well it is called in the addStudentToServer function below
     addStudentToServer();
  //   clearAddStudentForm();  not needed here as well anymore it will be called in the addStudentToServer function
-
 }
 
 //inline onclick added to button
@@ -61,7 +60,7 @@ function addStudent(student_data, fromServer) {
         student_object.id = studentID;
         student_array.push(student_object);
         $('.noData').remove();
-        console.log(student_object);
+        //console.log(student_object);
         high_and_low_grade(student_object.studentGrade);
         updateStudentList();
     }
@@ -84,14 +83,17 @@ function clearAddStudentForm() {
     //end the for loop
     //a variable of the totalAvg is equal to the totalGrades divided by the student array length
     //return the totalAvg
-function calculateAverage() {
+function calculateAverage(/*gradeToDelete*/) {
     var totalGrades = 0;
+    console.log('before deleting...', student_array.length);
+    //console.log('grade to be deleted...', gradeToDelete);
+
     for (var i = 0; i < student_array.length; i++) {
         totalGrades += parseInt(student_array[i].studentGrade);
         //console.log("totalGrades", totalGrades);
     }
     var totalAvg = Math.round(totalGrades / student_array.length);
-    //console.log("total avg", totalAvg);
+    console.log('total average', totalAvg);
     return totalAvg;
 }
 
@@ -213,14 +215,31 @@ function deleteStudentFromServer(studentObj){
                    // alert(response.errors[0]);
                     studentObj.element.attr("data-content", response.errors[0]).popover("show");
                 }
+            calculateAverage(); //go to calculate average
+            updateData(); //update data after calculating
             //console.log("response", response);
         }
     });
 }
 
+/*            if (response.success === true) {
+                studentObj.element.remove();
+                console.log(studentObj, response);
+                var studentIndex = student_array.indexOf(studentObj);
+                student_array.splice(studentIndex, 1);
+            }
+            else {
+                alert(response.errors[0]);
+            }
+            calculateAverage(); //go to calculate average
+            updateData(); //update data after calculating
+        }
+    });
+}*/
+
 //function to add student to server
 //in the conditional when the response returns true execute the following:
-    //the addstudent function with a parameter of response targeting the new id and false (fromServer parameter), update data, and then clear the input fields.
+//the addstudent function with a parameter of response targeting the new id and false (fromServer parameter), update data, and then clear the input fields.
 function addStudentToServer(){
     $.ajax({
         dataType: 'json',
