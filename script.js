@@ -125,7 +125,7 @@ function addStudentToDom(studentObj, index){
         var trNew = $("<tr>",{
             "data-toggle": "popover",
             "data-content": "Error",
-            //"data-trigger": "focus",
+            "data-trigger": "focus",
             "data-placement": "right",
             "data-container": "body"
 });
@@ -222,21 +222,6 @@ function deleteStudentFromServer(studentObj){
     });
 }
 
-/*            if (response.success === true) {
-                studentObj.element.remove();
-                console.log(studentObj, response);
-                var studentIndex = student_array.indexOf(studentObj);
-                student_array.splice(studentIndex, 1);
-            }
-            else {
-                alert(response.errors[0]);
-            }
-            calculateAverage(); //go to calculate average
-            updateData(); //update data after calculating
-        }
-    });
-}*/
-
 //function to add student to server
 //in the conditional when the response returns true execute the following:
 //the addstudent function with a parameter of response targeting the new id and false (fromServer parameter), update data, and then clear the input fields.
@@ -265,31 +250,6 @@ function addStudentToServer(){
     })
 }
 
-//onload event that will call the reset function and load data from server
-$(document).ready(function(){
-    reset();
-    getServerData();
-});
-
-/*//code below is for the autocomplete.
-var courseList ={};
-function autoComplete(input){
-    for(var i=0; i < student_array.length; i++)
-        var course =student_array[i].course;
-    courseList[course]=1;
-}
-
-//timer for the autocomplete. Not required but nice feature
-var timer= null;
-$('body').on('keyup', 'input', function (event) {
-    console.log('keyup: ', event);
-    if(timer!=null){
-        clearTimeout(timer);
-    }
-    timer= setTimeout(autoComplete,500);
-});
-//end of timer*/
-
 //Function to check for the lowest and highest grades
 var highgrade = null;
 var lowgrade = null;
@@ -309,37 +269,12 @@ function high_and_low_grade( studentGrade ) {
     }
 }
 
-//highlight function will highlight highest and lowest grades
+//onload event that will call the reset function and load data from server
+$(document).ready(function(){
+    reset();
+    getServerData();
+});
 
-/*function highlighter(){
-    var lowest = 100;
-    var highest = 0;
-    var temp;
-    for (var i = student_array.length-1; i >= 0; i--) {
-        temp = student_array[i].studentGrade;
-        if (temp < lowest) {
-            lowest = temp;
-            $('.table.student-list > tbody > tr.table:nth-child(' + i + ') > td ').addClass('bg-danger');
-        }
-        if (temp > highest) {
-            highest = temp;
-            $('.table.table > tbody > tr.table:nth-child(' + i + ') > td ').addClass('bg-success');
-        }
-    }
-    console.log('highest is', highest);
-    console.log('lowest is', lowest);
-}*/
 
-    //
-    ////moved keyup code here to test. keyup works here
-    //var timer= null;
-    //$('body').on('keyup', 'input', function (event) {
-    //    console.log('keyup: ', event);
-    //    if(timer!=null){
-    //        clearTimeout(timer)
-    //    }
-    //    timer= setTimeout(autoComplete,500)
-    //});
-    ////end keyup
 
 
