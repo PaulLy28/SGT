@@ -39,6 +39,7 @@ function getDataClicked(){
     //a conditional for when the input fields are not null to return undefined
 function addStudent(student_data, fromServer) {
     student_object = {};
+    //console.log(fromServer);
     if (fromServer == false){
         //if(student_data === undefined) {
         var nameAdded = $("input[name=studentName]").val();
@@ -85,7 +86,7 @@ function clearAddStudentForm() {
     //return the totalAvg
 function calculateAverage(/*gradeToDelete*/) {
     var totalGrades = 0;
-    console.log('before deleting...', student_array.length);
+    //console.log('before deleting...', student_array.length);
     //console.log('grade to be deleted...', gradeToDelete);
 
     for (var i = 0; i < student_array.length; i++) {
@@ -180,12 +181,11 @@ function getServerData() {
         url: "http://s-apis.learningfuze.com/sgt/get",
         success: function (response) {
             //serverData = response;
-            //console.log(response);
+            console.log(response);
             for(var i = 0; i < response.data.length; i++){
                 //student_array.push(serverData.data[i]);
                 addStudent(response.data[i], true);
             }
-           // updateStudentList();
             updateData();
         }
     });
@@ -204,6 +204,7 @@ function deleteStudentFromServer(studentObj){
         method: "post",
         url: "http://s-apis.learningfuze.com/sgt/delete",
         success: function(response) {
+            console.log(response);
             if (response.success === true) {
                 studentObj.element.remove();
                 console.log(studentObj, response);
@@ -225,9 +226,6 @@ function addStudentToServer(){
         dataType: 'json',
         data: {
             api_key: "1fu4QTyxd4",
-            /*name: 'Kenneth',
-            course: 'Anatomy',
-            grade: 55,*/
             name: $("input[name=studentName]").val(),//student's name
             course: $("input[name=course]").val(),//student's course
             grade: parseInt($("input[name=studentGrade]").val()),
