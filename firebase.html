@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.firebase.com/js/client.2.4.1/firebase.js"></script>
+    <script src="https//ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angularFire/1.1.4/angularfire.js"></script>
+</head>
+<body ng-app="sgtApp">
+
+<form ng-controller="mainController as mc" ng-submit="submit()">
+    <input type="text" placeholder="Student Name" ng-model="mc.studentName">
+    <input type="text" placeholder="Student Course" ng-model="mc.studentCourse">
+    <input type="text" placeholder="Student Grade" ng-model="mc.studentGrade">
+    <input type="submit" value="submit">
+</form>
+
+<table>
+    <tbody>
+        <tr ng-repeat="">
+            <td>{{ student.name }}</td>
+            <td>{{ student.course }}</td>
+            <td>{{ student.grade }}</td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>
