@@ -46,17 +46,17 @@ app.directive("tableDirective", function(){
        },
        controller: 'ioController',
         controllerAs: "io",*/
-       link: function(scope, elem, attrs){
+/*       link: function(scope, elem, attrs){
 
            elem.on("click", "button", function(){
                var tableScope = this;
-               /*scope.deleteFunc({index: $(this).attr("attr")});
-               scope.$apply();*/
+               /!*scope.deleteFunc({index: $(this).attr("attr")});
+               scope.$apply();*!/
                scope.$apply(function(){
                    scope.deleteFunc({index: $(tableScope).attr("attr")});
                });
            });
-       }
+       }*/
    }
 });
 /*added*/
@@ -120,10 +120,10 @@ app.provider('sgtData', function(){
 
             deleteStudent: function(num) {
                 console.log("delete clicked", num);
-                console.log("student id", data.data.data.id);
+                console.log("student id", num);
                 var apiStr = $.param({
                     api_key: "1fu4QTyxd4",
-                    student_id: selfCtrl.studentData.id
+                    student_id: num
                 });
                 return  $http({
                     url: 'http://s-apis.learningfuze.com/sgt/delete',

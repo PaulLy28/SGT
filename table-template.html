@@ -2,8 +2,8 @@
     <!--<button id="load-data" type="button" ng-click="io.getData()">Load</button>-->
    <!-- <button id="load-data" type="button" ng-click="io.addNewStudent()">Add</button>-->
     <table id="student-table" class="student-list table table-striped">
-        <p ng-bind="io.studentData[1].name"></p>
-        <p ng-bind="io.test"></p>
+<!--        <p ng-bind="io.studentData[1].name"></p>
+        <p ng-bind="io.test"></p>-->
         <thead>
             <tr>
                 <th>Student Name</th>
@@ -25,7 +25,7 @@
                 <td>{{ student.name }}</td>
                 <td>{{ student.course }}</td>
                 <td>{{ student.grade }}</td>
-               <td><button id="deleteData" ng-class="delete" attr="{{$index}}" ng-click="io.deleteData(student.id)">Delete</button></td>
+               <td><button class="btn btn-danger" id="deleteData" ng-class="delete" attr="{{$index}}" ng-click="io.deleteData(student.id)">Delete</button></td>
             </tr>
         </tbody>
 
