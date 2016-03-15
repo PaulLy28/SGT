@@ -1,0 +1,22 @@
+<div class="student-list-container col-md-9">
+    <table id="student-table" class="student-list table table-striped">
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Student Course</th>
+                <th>Student Grade</th>
+                <th>Operations</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="student in array">
+                <td>{{ student.name }}</td>
+                <td>{{ student.course }}</td>
+                <td>{{ student.grade }}</td>
+                <td><button id="deleteData" ng-class="delete" attr="{{$index}}">Delete</button></td>
+            </tr>
+        </tbody>
+
+    </table>
+
+</div>

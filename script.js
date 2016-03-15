@@ -1,3 +1,4 @@
+
 //global array variable defined
 var student_array = [];
 
@@ -274,7 +275,6 @@ $(document).ready(function(){
     reset();
     getServerData();
 });
-
 
 
 

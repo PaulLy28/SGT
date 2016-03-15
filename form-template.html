@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="page-header">
+        <!--only show this element when it isn't on mobile-->
+        <h1 class="hidden-xs">Student Grade Table</h1>
+        <!--only show this element when in mobile-->
+        <h3 class="visible-xs">Student Grade Table</h3>
+    </div>
+
+    <form class="student-add-form col-md-3 pull right" name="studentForm" novalidate>
+        <h4>Add Student</h4>
+        <div class="input-group form-group">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-user"></span>
+            </span>
+            <input type="text" class="form-control" placeholder="Student Name" ng-model="student.name" required>
+        </div>
+
+        <div class="input-group form-group">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-education"></span>
+            </span>
+            <input type="text" class="form-control" placeholder="Student Course" ng-model="student.course" required>
+        </div>
+
+        <div class="input-group form-group">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-list-alt"></span>
+            </span>
+            <input type="number" class="form-control" placeholder="Student Grade" ng-model="student.grade" required>
+        </div>
+        <button id="add-student-btn" type="button" class="btn btn-success">Add</button>
+        <button id="cancel-btn" type="button" class="btn btn-danger">Cancel</button>
+    </form>
+</div>
+<ng-transclude></ng-transclude>
+
+
+
+
