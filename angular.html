@@ -12,11 +12,16 @@
 </head>
 <body ng-app="sgtApp">
 
-    <div ng-controller="mainController as mc">
-        <add-student add="mc.addData(student)">
-            <table-directive array="mc.studentArray" delete-func="mc.deleteData(index)"></table-directive>
-        </add-student>
-    </div>
+    <div ng-controller="ioController as io">
 
+<!--        <add-student add="mc.addData(student)">
+            <table-directive array="mc.studentArray" delete-func="mc.deleteData(index)"></table-directive>
+        </add-student>-->
+
+        <add-student>
+            <table-directive></table-directive>
+        </add-student>
+
+    </div>
 </body>
 </html>

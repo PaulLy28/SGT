@@ -1,5 +1,9 @@
-<div class="student-list-container col-md-9">
+<div class="student-list-container pull-left col-md-9">
+    <!--<button id="load-data" type="button" ng-click="io.getData()">Load</button>-->
+   <!-- <button id="load-data" type="button" ng-click="io.addNewStudent()">Add</button>-->
     <table id="student-table" class="student-list table table-striped">
+        <p ng-bind="io.studentData[1].name"></p>
+        <p ng-bind="io.test"></p>
         <thead>
             <tr>
                 <th>Student Name</th>
@@ -9,11 +13,19 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="student in array">
+<!--            <tr ng-repeat="student in array">
                 <td>{{ student.name }}</td>
                 <td>{{ student.course }}</td>
                 <td>{{ student.grade }}</td>
                 <td><button id="deleteData" ng-class="delete" attr="{{$index}}">Delete</button></td>
+            </tr>-->
+
+            <tr ng-repeat="student in io.studentData" id="{{ student.id }}">
+                <!--<td>{{ student.id }}</td>-->
+                <td>{{ student.name }}</td>
+                <td>{{ student.course }}</td>
+                <td>{{ student.grade }}</td>
+               <td><button id="deleteData" ng-class="delete" attr="{{$index}}" ng-click="io.deleteData(student.id)">Delete</button></td>
             </tr>
         </tbody>
 

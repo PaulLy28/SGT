@@ -6,30 +6,36 @@
         <h3 class="visible-xs">Student Grade Table</h3>
     </div>
 
-    <form class="student-add-form col-md-3 pull right" name="studentForm" novalidate>
+    <form class="student-add-form col-md-3 pull-right" name="studentForm" novalidate>
         <h4>Add Student</h4>
         <div class="input-group form-group">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-user"></span>
             </span>
-            <input type="text" class="form-control" placeholder="Student Name" ng-model="student.name" required>
+            <input type="text" class="form-control" placeholder="Student Name" name="studentName" ng-model="student.name" required>
         </div>
 
         <div class="input-group form-group">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-education"></span>
             </span>
-            <input type="text" class="form-control" placeholder="Student Course" ng-model="student.course" required>
+            <input type="text" class="form-control" placeholder="Student Course" name="course" ng-model="student.course" required>
         </div>
 
         <div class="input-group form-group">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-list-alt"></span>
             </span>
-            <input type="number" class="form-control" placeholder="Student Grade" ng-model="student.grade" required>
+            <input type="number" class="form-control" placeholder="Student Grade" name="studentGrade" ng-model="student.grade" required>
         </div>
-        <button id="add-student-btn" type="button" class="btn btn-success">Add</button>
+        <p>{{ io.test }}</p>
+        <button class="btn btn-success" id="add-student-btn" type="button" ng-click="io.addNewStudent()">Add</button>
+<!--        <button id="add-student-btn" type="button" class="btn btn-success">Add</button>-->
         <button id="cancel-btn" type="button" class="btn btn-danger">Cancel</button>
+        <button id="load-data" type="button" ng-click="io.getData()">Load</button>
+<!--        <div ng-controller="ioController as ic">
+        <button id="load-data" type="button" ng-click="ic.getData()">Load</button>
+        </div>-->
     </form>
 </div>
 <ng-transclude></ng-transclude>
