@@ -11,7 +11,8 @@ function addStudentClicked(){
  //   addStudent(); don't want this here anymore it will add to the dom and when you click it get data from server it will add the same one to the end once data has been loaded
  //   updateData(); not needed as well it is called in the addStudentToServer function below
     addStudentToServer();
- //   clearAddStudentForm();  not needed here as well anymore it will be called in the addStudentToServer function
+    getDataClicked();
+    clearAddStudentForm();  //not needed here as well anymore it will be called in the addStudentToServer function
 }
 
 //inline onclick added to button
@@ -199,7 +200,7 @@ function getServerData() {
 //declared a variable that is referencing the index position of the student object in the student array
 //in the student array remove 1 student object using the splice method and passing in the studentIndex variable
 //if success is false then alert message will appear. in the alert message it is targeting the response and in the response the errors at position 0. (in the dev tool, network tab, select "delete", preview tab, expand success false, expand errors, shows position.
-function deleteStudentFromServer(studentObj){
+/*function deleteStudentFromServer(studentObj){
     var deleteData = {api_key: "1fu4QTyxd4", student_id: studentObj.id};
     $.ajax({
         //dataType: "json",
@@ -207,6 +208,7 @@ function deleteStudentFromServer(studentObj){
         method: "post",
         url: "http://s-apis.learningfuze.com/sgt/delete",
         success: function(response) {
+            console.log(response);
             if (response.success === true) {
                 studentObj.element.remove();
                 var studentIndex = student_array.indexOf(studentObj);
@@ -217,6 +219,31 @@ function deleteStudentFromServer(studentObj){
                // alert(response.errors[0]);
                 studentObj.element.attr("data-content", response.errors[0]).popover("show");
             }
+            calculateAverage(); //go to calculate average
+            updateData(); //update data after calculating
+            //console.log("response", response);
+        }
+    });
+}*/
+function deleteStudentFromServer(studentObj){
+    //var deleteData = {api_key: "1fu4QTyxd4", student_id: studentObj.id};
+    $.ajax({
+        dataType: "json",
+        data: {api_key: "1fu4QTyxd4"},
+        method: "post",
+        url: "delete_student.php",
+        success: function(response) {
+            console.log(response);
+            if (response.success === true) {
+                studentObj.element.remove();
+                var studentIndex = student_array.indexOf(studentObj);
+                student_array.splice(studentIndex, 1);
+            }
+            /*else {
+                //change to modal
+                // alert(response.errors[0]);
+                studentObj.element.attr("data-content", response.errors[0]).popover("show");
+            }*/
             calculateAverage(); //go to calculate average
             updateData(); //update data after calculating
             //console.log("response", response);
@@ -235,7 +262,7 @@ function addStudentToServer(){
                 name: $("input[name=studentName]").val(),//student's name
                 course: $("input[name=course]").val(),//student's course
                 grade: parseInt($("input[name=studentGrade]").val()), //grade
-                student_id: 100,
+                //student_id: 100,
                 status: 1
             },
         },
