@@ -1,5 +1,5 @@
 <?php
-    $connect = mysqli_connect("localhost", "root", "root", "sgt_dummy") or die("Error " . mysqli_error($connect));
+    require('mysql_connect.php');
 
     $querySetStatus = "UPDATE `studenttable` SET `Status`= 0";
     $resultSetStatus = mysqli_query($connect, $query) or die("Error in Selecting " . mysqli_error($connect));

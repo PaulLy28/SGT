@@ -1,5 +1,5 @@
 <?php
-    $connect = mysqli_connect("localhost", "root", "root", "sgt_dummy") or die("Error " . mysqli_error($connect));
+    require('mysql_connect.php');
     //this query string returns all active students
     //$studentQuery = "SELECT studenttable.name, studenttable.course, studenttable.grade, studenttable.Student_ID WHERE studenttable.Status = 1";
     $query = "SELECT studenttable.name, studenttable.course, studenttable.grade, studenttable.Student_ID,

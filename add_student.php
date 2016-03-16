@@ -1,5 +1,5 @@
 <?php
-    $connect = mysqli_connect("localhost", "root", "root", "sgt_dummy") or die("Error " . mysqli_error($connect));
+    require('mysql_connect.php');
     //require
     print_r($_POST);
     /*$expectedField = [
