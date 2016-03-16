@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <!-- AngularJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
     <!-- Firebase -->
@@ -11,33 +14,120 @@
     <script src="https://cdn.firebase.com/libs/angularfire/1.1.4/angularfire.min.js"></script>
     <script src="firebase_alt.js"></script>
 </head>
-
 <body ng-app="firebaseSGT" ng-controller="mainController as mc">
-<form ng-submit="submit()">
-    <input type="text" placeholder="name" ng-model="mc.student.name">
-    <input type="text" placeholder="course" ng-model="mc.student.course">
-    <input type="text" placeholder="grade" ng-model="mc.student.grade">
-    <input type="submit" ng-click="mc.addStudent()">
-</form>
-<table>
-    <thead>
-    <tr>
-        <td>Name</td>
-        <td>Course</td>
-        <td>Grade</td>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="(key,value) in mc.databaseObj">
+<div class="container">
+    <div class="page-header">
+        <h1 class="hidden-xs">Student Grade Table</h1>
+        <h3 class="visible-xs">Student Grade Table</h3>
+    </div>
 
-        <td>{{ value.name }}</td>
-        <td>{{ value.course}}</td>
-        <td>{{ value.grade }}</td>
-        <td><button ng-click="mc.deleteStudent(key)">Delete</button></td>
-        <td><button ng-click="mc.editStudent(key)">Edit</button></td>
-    </tr>
-    </tbody>
-</table>
+    <form class="student-add-form col-md-3 pull-right" name="studentForm" ng-submit="submit()" validate>
+        <h4>Add Student</h4>
+        <div class="input-group form-group">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-user"></span>
+            </span>
+            <input type="text" id="s-name-input" class="form-control" placeholder="name" ng-model="mc.student.name">
+        </div>
+
+        <div class="input-group form-group">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-education"></span>
+            </span>
+            <input type="text" id="s-course-input" class="form-control" placeholder="course" ng-model="mc.student.course">
+        </div>
+
+        <div class="input-group form-group">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-list-alt"></span>
+            </span>
+            <input type="text" id="s-grade-input" class="form-control" placeholder="grade" ng-model="mc.student.grade">
+        </div>
+
+        <button id="add-student-btn" type="submit" class="btn btn-success" name="addBtn" ng-click="mc.addStudent()">Add</button>
+        <button id="cancel-btn" type="button" class="btn btn-danger">Cancel</button>
+    </form>
+
+    <div class="student-list-container col-md-9">
+        <table id="student-table" class="student-list table table-striped">
+            <thead>
+            <tr>
+                <td>Student Name</td>
+                <td>Student Course</td>
+                <td>Student Grade</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="(key,value) in mc.databaseObj">
+                <td>{{ value.name }}</td>
+                <td>{{ value.course}}</td>
+                <td>{{ value.grade }}</td>
+                <td><button ng-click="mc.deleteStudent(key)">Delete</button></td>
+                <!--<td><button ng-click="mc.editStudent(key)">Edit</button></td>-->
+                <td><button ng-click="mc.editStudent(key)">Edit</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!--======== Edit Modal ===========-->
+<!-- line modal -->
+<div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+
+                <!-- content goes here -->
+                <form id="edit-form" class="form-horizontal">
+                    <fieldset>
+
+                        <!-- Form Name -->
+                        <legend>Edit Student</legend>
+
+                        <!-- Name input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="modal-edit-name">Student Name</label>
+                            <div class="col-md-4">
+                                <input id="modal-edit-name" name="modal-edit-name" type="text" placeholder="Student Name" class="form-control input-md">
+                                <span class="help-block">Edit Name</span>
+                            </div>
+                        </div>
+
+                        <!-- Course input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="modal-edit-course">Student Course</label>
+                            <div class="col-md-4">
+                                <input id="modal-edit-course" name="modal-edit-course" type="text" placeholder="Student Course" class="form-control input-md">
+                                <span class="help-block">Edit Course</span>
+                            </div>
+                        </div>
+
+                        <!-- Grade input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="modal-edit-grade">Student Grade</label>
+                            <div class="col-md-4">
+                                <input id="modal-edit-grade" name="modal-edit-grade" type="text" placeholder="Student Grade" class="form-control input-md">
+                                <span class="help-block">Edit Grade</span>
+                            </div>
+                        </div>
+
+                        <input type="hidden" id="student-id" name="sid" value="" />
+
+                        <!-- Confirm Edit Button  -->
+                        <div class="form-group" ng-submit="submit()">
+                            <label class="col-md-4 control-label" for="confirm-edit">Confirm Edit</label>
+                            <div class="col-md-8">
+                                <button id="confirm-edit" name="confirm-edit" type="submit" class="btn btn-success" ng-click="mc.modalEdit()">Confirm</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </body>
-
 </html>
