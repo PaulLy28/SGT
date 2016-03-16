@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="firebaseSGT">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -12,7 +12,7 @@
     <script src="firebase_alt.js"></script>
 </head>
 
-<body ng-controller="MainController as mc">
+<body ng-app="firebaseSGT" ng-controller="mainController as mc">
 <form ng-submit="submit()">
     <input type="text" placeholder="name" ng-model="mc.student.name">
     <input type="text" placeholder="course" ng-model="mc.student.course">

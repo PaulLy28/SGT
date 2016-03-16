@@ -19,7 +19,7 @@ app.service('firebaseService', function(){
     }
 });
 
-app.controller('MainController', function($firebaseObject, firebaseService){
+app.controller('mainController', function($firebaseObject, firebaseService){
     this.addStudent = firebaseService.addStudent;
     this.databaseObj = $firebaseObject(firebaseService.firebaseRef);
     this.deleteStudent = firebaseService.deleteStudent;
