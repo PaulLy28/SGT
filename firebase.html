@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="firebaseSGT">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -12,34 +12,32 @@
     <script src="firebase_alt.js"></script>
 </head>
 
-<body ng-app="sgtApp" ng-controller="mainController as mc">
-
+<body ng-controller="MainController as mc">
 <form ng-submit="submit()">
-    <!--<p>{{mc.studentArray}}</p>-->
-    <input type="text" placeholder="Student Name" name="studentName" ng-model="mc.studentObj.name">
-    <input type="text" placeholder="Student Course" name="course" ng-model="mc.studentObj.course">
-    <input type="text" placeholder="Student Grade" name="studentGrade" ng-model="mc.studentObj.grade">
-    <input type="submit" value="Add Student" ng-click="mc.addNewStudent()">
- <!--   <button type="submit" value="add" ng-click="mc.addNewStudent()">add</button>-->
+    <input type="text" placeholder="name" ng-model="mc.student.name">
+    <input type="text" placeholder="course" ng-model="mc.student.course">
+    <input type="text" placeholder="grade" ng-model="mc.student.grade">
+    <input type="submit" ng-click="mc.addStudent()">
 </form>
-
 <table>
     <thead>
     <tr>
-        <th>Student Name</th>
-        <th>Student Course</th>
-        <th>Student Grade</th>
-        <th>Operations</th>
+        <td>Name</td>
+        <td>Course</td>
+        <td>Grade</td>
     </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="student in mc.studentArray">
-            <td>{{ student.name }}</td>
-            <td>{{ student.course }}</td>
-            <td>{{ student.grade }}</td>
-            <td><button ng-click="mc.removeStudentServer($index)">delete</button></td>
-        </tr>
+    <tr ng-repeat="(key,value) in mc.databaseObj">
+
+        <td>{{ value.name }}</td>
+        <td>{{ value.course}}</td>
+        <td>{{ value.grade }}</td>
+        <td><button ng-click="mc.deleteStudent(key)">Delete</button></td>
+        <td><button ng-click="mc.editStudent(key)">Edit</button></td>
+    </tr>
     </tbody>
 </table>
 </body>
+
 </html>
