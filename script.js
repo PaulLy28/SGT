@@ -110,7 +110,6 @@ function updateData(){
 //loop through student array
     //call addStudentToDom for each student in the array
 function updateStudentList(){
-
 /*    $("tbody").empty();
     for(var i= 0; i < student_array.length; ++i)
         addStudentToDom(student_array[i],i);*/
@@ -152,6 +151,7 @@ function addStudentToDom(studentObj, index){
                 console.log('element is ',trNew,studentObj,newIndex);
                 console.log('this object is in element # '+index);
                 deleteStudentFromServer(studentObj);
+                getDataClicked();
                 //student_array.splice(student_array.indexOf(studentObj), 1);
                 //trNew.remove();
                // console.log(this);
@@ -167,7 +167,7 @@ function addStudentToDom(studentObj, index){
     //set the student array to and empty array
     //call the function to update the student list
 function reset(){
-    student_array=[];
+    student_array = [];
     updateStudentList();
     var unavailable = $('<td>').addClass('noData').attr('colSpan','4').html('<h4>User Info Unavailable</h4>');
     $('.student-list > tbody').append(unavailable);
@@ -226,10 +226,10 @@ function getServerData() {
     });
 }*/
 function deleteStudentFromServer(studentObj){
-    //var deleteData = {api_key: "1fu4QTyxd4", student_id: studentObj.id};
+    var deleteData = {api_key: "1fu4QTyxd4", student_id: studentObj.id};
     $.ajax({
         dataType: "json",
-        data: {api_key: "1fu4QTyxd4"},
+        data: deleteData,
         method: "post",
         url: "delete_student.php",
         success: function(response) {
