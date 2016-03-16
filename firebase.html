@@ -3,25 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="https://cdn.firebase.com/js/client.2.4.1/firebase.js"></script>
-    <script src="https//ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angularFire/1.1.4/angularfire.js"></script>
+    <!-- AngularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <!-- Firebase -->
+    <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+    <!-- AngularFire -->
+    <script src="https://cdn.firebase.com/libs/angularfire/1.1.4/angularfire.min.js"></script>
+    <script src="firebase.js"></script>
 </head>
-<body ng-app="sgtApp">
 
-<form ng-controller="mainController as mc" ng-submit="submit()">
-    <input type="text" placeholder="Student Name" ng-model="mc.studentName">
-    <input type="text" placeholder="Student Course" ng-model="mc.studentCourse">
-    <input type="text" placeholder="Student Grade" ng-model="mc.studentGrade">
-    <input type="submit" value="submit">
+<body ng-app="sgtApp" ng-controller="mainController as mc">
+
+<form ng-submit="submit()">
+    <!--<p>{{mc.studentArray}}</p>-->
+    <input type="text" placeholder="Student Name" name="studentName" ng-model="mc.studentObj.name">
+    <input type="text" placeholder="Student Course" name="course" ng-model="mc.studentObj.course">
+    <input type="text" placeholder="Student Grade" name="studentGrade" ng-model="mc.studentObj.grade">
+    <input type="submit" value="Add Student" ng-click="mc.addNewStudent()">
+ <!--   <button type="submit" value="add" ng-click="mc.addNewStudent()">add</button>-->
 </form>
 
 <table>
+    <thead>
+    <tr>
+        <th>Student Name</th>
+        <th>Student Course</th>
+        <th>Student Grade</th>
+        <th>Operations</th>
+    </tr>
+    </thead>
     <tbody>
-        <tr ng-repeat="">
+        <tr ng-repeat="student in mc.studentArray">
             <td>{{ student.name }}</td>
             <td>{{ student.course }}</td>
             <td>{{ student.grade }}</td>
+            <td><button ng-click="mc.removeStudentServer($index)">delete</button></td>
         </tr>
     </tbody>
 </table>
