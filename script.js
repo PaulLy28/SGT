@@ -178,8 +178,8 @@ function getServerData() {
     $.ajax({
         dataType: "json",
         data: apiKey,
-        method: "post",
-        url: "http://s-apis.learningfuze.com/sgt/get",
+        method: "POST",
+        url: "get_data.php",
         success: function (response) {
             //serverData = response;
             console.log(response);
@@ -188,6 +188,9 @@ function getServerData() {
                 addStudent(response.data[i], true);
             }
             updateData();
+        },
+        error: function(){
+            console.log('Error in ajax call');
         }
     });
 }
@@ -235,7 +238,7 @@ function addStudentToServer(){
             grade: parseInt($("input[name=studentGrade]").val()),
         },
         method: 'post',
-        url: 'http://s-apis.learningfuze.com/sgt/create',
+        url: 'get_data.php',
         success: function(response){
             if (response.success == true) {
                 addStudent(response.new_id, false);
@@ -244,8 +247,8 @@ function addStudentToServer(){
             }
             console.log('the ajax call is successful! ', response);
         },
-        error: function(response){
-            console.log('the ajax call is unsuccessful! ');
+        error: function(){
+            console.log('the ajax call is unsuccessful!');
         }
     })
 }
