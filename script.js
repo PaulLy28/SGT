@@ -147,7 +147,6 @@ function addStudentToDom(studentObj, index){
             'data-index': index,
            // data-toggle: "popover",
             click: function(){
-
                 var newIndex = student_array.indexOf(studentObj);
                 console.log('element is ',trNew,studentObj,newIndex);
                 console.log('this object is in element # '+index);
@@ -203,7 +202,7 @@ function getServerData() {
 function deleteStudentFromServer(studentObj){
     var deleteData = {api_key: "1fu4QTyxd4", student_id: studentObj.id};
     $.ajax({
-        dataType: "json",
+        //dataType: "json",
         data: deleteData,
         method: "post",
         url: "http://s-apis.learningfuze.com/sgt/delete",
@@ -230,21 +229,24 @@ function deleteStudentFromServer(studentObj){
 //the addstudent function with a parameter of response targeting the new id and false (fromServer parameter), update data, and then clear the input fields.
 function addStudentToServer(){
     $.ajax({
-        dataType: 'json',
+        /*dataType: 'json',*/
         data: {
-            api_key: "1fu4QTyxd4",
-            name: $("input[name=studentName]").val(),//student's name
-            course: $("input[name=course]").val(),//student's course
-            grade: parseInt($("input[name=studentGrade]").val()),
+            student:{
+                name: $("input[name=studentName]").val(),//student's name
+                course: $("input[name=course]").val(),//student's course
+                grade: parseInt($("input[name=studentGrade]").val()), //grade
+                student_id: 100,
+                status: 1
+            },
         },
-        method: 'post',
-        url: 'get_data.php',
+        method: 'POST',
+        url: 'add_student.php',
         success: function(response){
-            if (response.success == true) {
+            /*if (response.success == true) {
                 addStudent(response.new_id, false);
                 updateData();
                 clearAddStudentForm();
-            }
+            }*/
             console.log('the ajax call is successful! ', response);
         },
         error: function(){
@@ -252,7 +254,6 @@ function addStudentToServer(){
         }
     })
 }
-
 //Function to check for the lowest and highest grades
 var highgrade = null;
 var lowgrade = null;
