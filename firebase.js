@@ -25,7 +25,7 @@ var app = angular.module("sgtApp", ["firebase"])
     .controller("mainController", function($scope, $firebaseArray, studentService){
         var mainCtrlScope = this;
         this.studentArray = studentService.array;
-        this.studentObj = {};
+        mainCtrlScope.studentObj = {};
         this.addNewStudent = function(){
             studentService.addStudent(this.studentObj, this.clearInputs);
             /*studentService.clearInputs();*/
